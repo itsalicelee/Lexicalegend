@@ -53,7 +53,7 @@ app.get(
   async (_: Request, res: Response): Promise<Response> => {
     return res.status(200).json({
       status: 'success',
-      message: 'Connected successfully!',
+      message: 'Connected successfully!😼',
     });
   }
 );
