@@ -28,7 +28,7 @@ async function spellCheck(text:string): Promise<string>{
         const $ = Cheerio.load(html);
         const suggestionLst = $('.lbt.lp-5.lpl-20').text();
         // check spelling if no suggested word
-        var result = (suggestionLst === '') ? ("Please check your spelling! 🤧") : suggestionLst;
+        var result = (suggestionLst === '') ? ("Please check your spelling!") : suggestionLst;
         return result;
     }
     catch(e){
