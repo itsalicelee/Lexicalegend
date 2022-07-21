@@ -44,7 +44,6 @@ const textEventHandler = async (event: WebhookEvent): Promise<MessageAPIResponse
         text: reply,
     };
     
-
     // Reply to the user.
     await client.replyMessage(replyToken, response);
 };
