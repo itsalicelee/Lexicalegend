@@ -10,9 +10,9 @@
     "dev": "nodemon --watch 'src/**/*.ts' --exec 'ts-node' index.ts",
     "scrap": "nodemon --watch 'src/**/*.ts' --exec 'ts-node' src/cambridge.ts"
   },
-  "author": "Nicholas Dwiarto <nicholasdwiarto@yahoo.com> (https://nicholasdw.com)",
+  "author": "Alice Lee <alice668149@gmail.com> (https://itsalicelee.github.io)",
   "dependencies": {
-    "@line/bot-sdk": "^7.5.0",
+    "@line/bot-sdk": "^7.3.0",
     "axios": "^0.27.2",
     "cheerio": "^1.0.0-rc.12",
     "express": "^4.17.1",

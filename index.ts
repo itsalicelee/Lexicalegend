@@ -37,7 +37,7 @@ const textEventHandler = async (event: WebhookEvent): Promise<MessageAPIResponse
     // Fetch the word definition from cambridge dictionary
     const reply = await fetchCambridge(text);
     
-    // console.log(reply);
+    
     // Create a new message.
     const response: TextMessage = {
         type: 'text',

@@ -12,11 +12,10 @@ export async function fetchCambridge(text: string): Promise<string>{
         const $ = Cheerio.load(html); // Load the HTML string into cheerio
         const def = $('.def-body').text(); // Parse the HTML and extract text
         var result = (def === '') ?  ("Are you looking for: \n " + await spellCheck(text)) : def;
-        // console.log(result);
         return result;
     }
     catch(e){
-        throw new Error("Failed fetching word def QQ");
+        throw Error("Failed fetching word def QQ");
     };
 }
 
@@ -29,12 +28,9 @@ async function spellCheck(text:string): Promise<string>{
         const $ = Cheerio.load(html);
         const suggestionLst = $('.lbt.lp-5.lpl-20').text();
         // console.log(suggestionLst);
-        // check spelling if no suggested word
-        var result = (suggestionLst === '') ? ("Please check your spelling!") : suggestionLst;
-        return result;
+        return suggestionLst;
     }
     catch(e){
-        throw new Error("Failed fetching word suggesting QQ");
+        throw Error("Failed fetching word suggesting QQ");
     }
 }
-fetchCambridge("whyyyy");
