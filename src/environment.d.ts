@@ -8,5 +8,5 @@ declare global {
   }
 }
 
-export type { Cheerio } from './cheerio';
-export {};
+// export type { Cheerio } from './cheerio';
+

@@ -1,6 +1,8 @@
 // Import all dependencies, mostly using destructuring for better view.
 import { ClientConfig, Client, middleware, MiddlewareConfig, WebhookEvent, TextMessage, MessageAPIResponseBase } from '@line/bot-sdk';
 import express, { Application, Request, Response } from 'express';
+import {fetchCambridge} from './src/cambridge';
+
 
 // Setup all LINE client and Express configurations.
 const clientConfig: ClientConfig = {
@@ -32,10 +34,13 @@ const textEventHandler = async (event: WebhookEvent): Promise<MessageAPIResponse
   const { replyToken } = event;
   const { text } = event.message;
 
+  
+  const reply = await fetchCambridge(text);
+  console.log(reply);
   // Create a new message.
   const response: TextMessage = {
     type: 'text',
-    text,
+    text: reply,
   };
 
   // Reply to the user.
