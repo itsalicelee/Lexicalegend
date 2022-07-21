@@ -10,8 +10,12 @@ export async function fetchCambridge(text: string): Promise<string>{
         const response = await AxiosInstance.get(url);
         const html = response.data;
         const $ = Cheerio.load(html); // Load the HTML string into cheerio
-        const def = $('.def-body').text(); // Parse the HTML and extract text
+        var def = $('.def-body').text(); // Parse the HTML and extract text
+        if(def.length > 3000){
+            def = def.substring(0,1500);
+        }
         var result = (def === '') ?  ("Are you looking for: \n " + await spellCheck(text)) : def;
+        console.log(result);
         return result;
     }
     catch(e){
@@ -26,11 +30,15 @@ async function spellCheck(text:string): Promise<string>{
         const response = await AxiosInstance.get(url_spellcheck);
         const html = response.data;
         const $ = Cheerio.load(html);
-        const suggestionLst = $('.lbt.lp-5.lpl-20').text();
+        const suggestionLst = $('.lbt.lp-5.lpl-20').text().replace("\\n", '\n');
         // console.log(suggestionLst);
+        if(suggestionLst.length > 3000){
+            return suggestionLst.substring(0,1500);
+        }
         return suggestionLst;
     }
     catch(e){
         throw Error("Failed fetching word suggesting QQ");
     }
 }
+
