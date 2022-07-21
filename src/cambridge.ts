@@ -26,8 +26,9 @@ async function spellCheck(text:string): Promise<string>{
         const response = await AxiosInstance.get(url_spellcheck);
         const html = response.data;
         const $ = Cheerio.load(html);
-        const suggestionLst = $('.lbt.lp-5.lpl-20');
-        return suggestionLst.text();
+        const suggestionLst = $('.lbt.lp-5.lpl-20').text();
+        var result = (suggestionLst === '') ? ("Please check your spelling! 🤧") : suggestionLst;
+        return result;
     }
     catch(e){
         throw new Error("Failed fetching word suggesting QQ");
