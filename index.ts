@@ -25,26 +25,28 @@ const app: Application = express();
 
 // Function handler to receive the text.
 const textEventHandler = async (event: WebhookEvent): Promise<MessageAPIResponseBase | undefined> => {
-  // Process all variables here.
-  if (event.type !== 'message' || event.message.type !== 'text') {
-    return;
-  }
+    // Process all variables here.
+    if (event.type !== 'message' || event.message.type !== 'text') {
+        return;
+    }
 
-  // Process all message related variables here.
-  const { replyToken } = event;
-  const { text } = event.message;
+    // Process all message related variables here.
+    const { replyToken } = event;
+    const { text } = event.message;
 
-  
-  const reply = await fetchCambridge(text);
-  // console.log(reply);
-  // Create a new message.
-  const response: TextMessage = {
-    type: 'text',
-    text: reply,
-  };
+    // Fetch the word definition from cambridge dictionary
+    const reply = await fetchCambridge(text);
+    
+    // console.log(reply);
+    // Create a new message.
+    const response: TextMessage = {
+        type: 'text',
+        text: reply,
+    };
+    
 
-  // Reply to the user.
-  await client.replyMessage(replyToken, response);
+    // Reply to the user.
+    await client.replyMessage(replyToken, response);
 };
 
 // Register the LINE middleware.

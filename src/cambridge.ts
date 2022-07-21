@@ -10,13 +10,26 @@ export async function fetchCambridge(text: string): Promise<string>{
         const response = await AxiosInstance.get(url);
         const html = response.data;
         const $ = Cheerio.load(html); // Load the HTML string into cheerio
-        const statsTable = $('.def-body').text(); // Parse the HTML and extract text
-        console.log(statsTable); // Log the number of captured elements
-        return statsTable;
+        const def = $('.def-body').text(); // Parse the HTML and extract text
+        var result = (def === '') ? ("Are you looking for: \n " + await spellCheck(text)) : def;
+        return result;
     }
     catch(e){
-        throw new Error('Failed fetching QQ');
+        throw new Error("Failed fetching word def QQ");
     };
 }
 
-fetchCambridge("agony");
+
+async function spellCheck(text:string): Promise<string>{
+    try{
+        const url_spellcheck = `https://dictionary.cambridge.org/us/spellcheck/english-chinese-traditional/?q=${text}`;
+        const response = await AxiosInstance.get(url_spellcheck);
+        const html = response.data;
+        const $ = Cheerio.load(html);
+        const suggestionLst = $('.lbt.lp-5.lpl-20');
+        return suggestionLst.text();
+    }
+    catch(e){
+        throw new Error("Failed fetching word suggesting QQ");
+    }
+}
