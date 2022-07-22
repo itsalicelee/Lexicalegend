@@ -10,7 +10,7 @@ export function emojiCheck(text:string):string{
     const regex = emojiRegex();
     for (const match of text.matchAll(regex)) {
         const emoji = match[0];
-        result =  `I love this emoji! ${ emoji } ${ emoji } ${ emoji } \n If you want to look up a word, ask me without emojis!`;
+        result =  `I love this emoji! ${ emoji } ${ emoji } ${ emoji } \nIf you want to look up a word, ask me without emojis!`;
     }
     return result;
 }

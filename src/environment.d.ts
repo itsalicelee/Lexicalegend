@@ -7,6 +7,3 @@ declare global {
     }
   }
 }
-
-// export type { Cheerio } from './cheerio';
-
