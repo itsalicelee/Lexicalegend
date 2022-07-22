@@ -36,7 +36,7 @@ const textEventHandler = async (event: WebhookEvent): Promise<MessageAPIResponse
 
     // If contains emoji return the default reply 
     // Otherwise fetch the word definition from cambridge dictionary
-    let reply = (emojiCheck(text) === '') ? (emojiCheck(text)) : await fetchCambridge(text);
+    let reply = (emojiCheck(text) != '') ? (emojiCheck(text)) : await fetchCambridge(text);
     
     // Create a new message.
     const response: TextMessage = {
