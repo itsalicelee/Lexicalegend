@@ -2,7 +2,7 @@
 import { ClientConfig, Client, middleware, MiddlewareConfig, WebhookEvent, TextMessage, MessageAPIResponseBase } from '@line/bot-sdk';
 import express, { Application, Request, Response } from 'express';
 import {fetchCambridge} from './src/cambridge';
-
+import { emojiCheck } from './src/text-process';
 
 // Setup all LINE client and Express configurations.
 const clientConfig: ClientConfig = {
@@ -34,9 +34,9 @@ const textEventHandler = async (event: WebhookEvent): Promise<MessageAPIResponse
     const { replyToken } = event;
     const { text } = event.message;
 
-    // Fetch the word definition from cambridge dictionary
-    const reply = await fetchCambridge(text);
-    
+    // If contains emoji return the default reply 
+    // Otherwise fetch the word definition from cambridge dictionary
+    let reply = (emojiCheck(text) === '') ? (emojiCheck(text)) : await fetchCambridge(text);
     
     // Create a new message.
     const response: TextMessage = {
