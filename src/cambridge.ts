@@ -40,8 +40,9 @@ async function spellCheck(text:string): Promise<string>{
         const response = await AxiosInstance.get(url_spellcheck);
         const html = response.data;
         const $ = Cheerio.load(html);
-        const suggestionLst = $('.lbt.lp-5.lpl-20').text();
-        // console.log(suggestionLst);
+        // format suggeting words
+        const suggestionLst = $('.lbt.lp-5.lpl-20').text().replace(/  +/g, ' ');
+        
         if(suggestionLst.length > 3000){
             return suggestionLst.substring(0,1500);
         }
@@ -51,3 +52,5 @@ async function spellCheck(text:string): Promise<string>{
         throw Error("Failed fetching word suggesting QQ");
     }
 }
+
+fetchCambridge("quotee");
