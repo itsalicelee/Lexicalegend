@@ -15,3 +15,5 @@ export function emojiCheck(text:string):string{
     return result;
 }
 
+
+
