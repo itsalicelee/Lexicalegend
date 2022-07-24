@@ -15,7 +15,7 @@ export async function fetchCambridge(text: string): Promise<string>{
         // get a list of definitioins
         let defLst: string[] = [];
         let defBody = $(`.def-body`).each((i: number, el: any) => {
-            defLst.push($(el).find(`span`).first().text());
+            defLst.push("➡️" + $(el).find(`span`).first().text());
         });
         // join the definitions into a string
         let def = defLst.join("\n");

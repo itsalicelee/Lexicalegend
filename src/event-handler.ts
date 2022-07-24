@@ -14,8 +14,7 @@ export const followEventHandler = async (event: WebhookEvent, client: Client): P
     const displayName = (await client.getProfile(userID)).displayName;
 
     
-    let reply = `Hi ${displayName}! Let's learn vocabulary! 👩‍🏫\n
-    You can type any word to look up its translation.`;
+    let reply = `Hi ${displayName}! Let's learn vocabulary! 👩‍🏫\nYou can type any word to look up its translation.`;
      // Create a new message.
     const response: TextMessage = {
         type: 'text',
@@ -39,9 +38,18 @@ export const textEventHandler = async (event: WebhookEvent, client: Client): Pro
     const { replyToken } = event;
     const { text } = event.message;
 
-    // If contains emoji return the default reply 
-    // Otherwise fetch the word definition from cambridge dictionary
-    let reply = (emojiCheck(text) != '') ? (emojiCheck(text)) : await fetchCambridge(text);
+    let reply = '';
+    
+    // Bug report
+    if(text.includes("REPORT") || text.includes("回報問題") || text.includes("建議") || text.includes("BUGS") || text.includes('🐛') ){
+        reply = `Please report the issue in the form! 🙇‍♀️ https://forms.gle/aawPQNEYfEgwyvCi8 `
+    }
+    // Look up translation
+    else{
+        // If contains emoji return the default reply 
+        // Otherwise fetch the word definition from cambridge dictionary
+        reply = (emojiCheck(text) != '') ? (emojiCheck(text)) : await fetchCambridge(text);
+    }
     
     // Create a new message.
     const response: TextMessage = {

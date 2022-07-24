@@ -1,6 +1,6 @@
 {
   "name": "lexicalegend",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "An example LINE bot with TypeScript made to echo messages",
   "main": "./dist/index.js",
   "scripts": {
