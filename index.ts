@@ -49,34 +49,25 @@ app.post(
     const results = await Promise.all(
       events.map(async (event: WebhookEvent) => {
         try {
-            switch(event.type){
-                case 'follow':{
-                    await EventHandler.followEventHandler(event, client);
-                    break;
-                }
-                case 'message':{
-                    if(event.message.type === 'text'){
+            if(event.type === 'follow'){
+                await EventHandler.followEventHandler(event, client);
+            }
+            else if(event.type === 'message'){
+                switch(event.message.type){
+                    case 'text':
                         await EventHandler.textEventHandler(event, client);
-                    }
-                    else if(event.message.type === 'image'){
+                    case 'image': 
                         await EventHandler.imageEventHandler(event, client);
-                    }
-                    else if(event.message.type === 'audio'){
+                    case 'audio':
                         await EventHandler.audioEventHandler(event, client);
-                    }
-                    else if(event.message.type === 'location'){
-                        await EventHandler.locationEventHandler(event, client);
-                    }
-                    else if(event.message.type === 'file'){
-                        await EventHandler.fileEventHandler(event, client);
-                    }
-                    else if(event.message.type === 'sticker'){
-                        await EventHandler.stickerEventHandler(event, client);
-                    }
-                    else if(event.message.type === 'video'){
+                    case 'video':
                         await EventHandler.videoEventHandler(event, client);
-                    }
-                    break;
+                    case 'location':
+                        await EventHandler.locationEventHandler(event, client);
+                    case 'sticker':
+                        await EventHandler.stickerEventHandler(event, client);
+                    case 'file':
+                        await EventHandler.fileEventHandler(event, client)
                 }
             }
         } catch (err: unknown) {
