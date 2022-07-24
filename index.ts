@@ -50,6 +50,10 @@ app.post(
       events.map(async (event: WebhookEvent) => {
         try {
             switch(event.type){
+                case 'follow':{
+                    await EventHandler.followEventHandler(event, client);
+                    break;
+                }
                 case 'message':{
                     if(event.message.type === 'text'){
                         await EventHandler.textEventHandler(event, client);

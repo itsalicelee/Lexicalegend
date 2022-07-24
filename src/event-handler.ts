@@ -2,6 +2,32 @@ import { Client, WebhookEvent, TextMessage, MessageAPIResponseBase } from '@line
 import { emojiCheck } from './text-process';
 import {fetchCambridge} from './cambridge';
 
+
+export const followEventHandler = async (event: WebhookEvent, client: Client): Promise<MessageAPIResponseBase | undefined> => {
+    if (event.type !== 'follow') {
+        return;
+    }
+
+    const { replyToken } = event;
+    // userID is not null
+    const userID: string = event.source.userId!;
+    const displayName = (await client.getProfile(userID)).displayName;
+
+    
+    let reply = `Hi ${displayName}! Let's learn vocabulary! 👩‍🏫\n
+    You can type any word to look up its translation.`;
+     // Create a new message.
+    const response: TextMessage = {
+        type: 'text',
+        text: reply,
+    };
+
+    // Reply to the user.
+    await client.replyMessage(replyToken, response);
+}
+
+
+
 // Function handler to receive the text.
 export const textEventHandler = async (event: WebhookEvent, client: Client): Promise<MessageAPIResponseBase | undefined> => {
     // Process all variables here.
@@ -95,4 +121,3 @@ export const fileEventHandler = async (event: WebhookEvent, client: Client): Pro
     // Reply to the user.
     await client.replyMessage(replyToken, response);
 }
-
