@@ -52,5 +52,3 @@ async function spellCheck(text:string): Promise<string>{
         throw Error("Failed fetching word suggesting QQ");
     }
 }
-
-fetchCambridge("quotee");

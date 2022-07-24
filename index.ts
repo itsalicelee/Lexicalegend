@@ -1,7 +1,7 @@
 // Import all dependencies, mostly using destructuring for better view.
-import { ClientConfig, Client, middleware, MiddlewareConfig, WebhookEvent, TextMessage, MessageAPIResponseBase } from '@line/bot-sdk';
+import { ClientConfig, Client, middleware, MiddlewareConfig, WebhookEvent} from '@line/bot-sdk';
 import express, { Application, Request, Response } from 'express';
-import {textEventHandler, imageEventHandler} from './src/event-handler';
+import * as EventHandler from './src/event-handler';
 
 // Setup all LINE client and Express configurations.
 const clientConfig: ClientConfig = {
@@ -52,10 +52,19 @@ app.post(
             switch(event.type){
                 case 'message':{
                     if(event.message.type === 'text'){
-                        await textEventHandler(event, client);
+                        await EventHandler.textEventHandler(event, client);
                     }
                     else if(event.message.type === 'image'){
-                        await imageEventHandler(event, client);
+                        await EventHandler.imageEventHandler(event, client);
+                    }
+                    else if(event.message.type === 'audio'){
+                        await EventHandler.audioEventHandler(event, client);
+                    }
+                    else if(event.message.type === 'location'){
+                        await EventHandler.locationEventHandler(event, client);
+                    }
+                    else if(event.message.type === 'file'){
+                        await EventHandler.fileEventHandler(event, client);
                     }
                     break;
                 }
