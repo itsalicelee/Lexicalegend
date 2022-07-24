@@ -23,7 +23,7 @@ export async function fetchCambridge(text: string): Promise<string>{
             def = def.substring(0,1500);
         }
         // check spelling        
-        var result = (def === '') ?  ("Are you looking for: \n " + await spellCheck(text)) : def;
+        var result = (def === '') ?  ("Are you looking for: \n " + await getSuggestLst(text)) : def;
         console.log(result);
         
         return result;
@@ -34,7 +34,7 @@ export async function fetchCambridge(text: string): Promise<string>{
 }
 
 
-async function spellCheck(text:string): Promise<string>{
+async function getSuggestLst(text:string): Promise<string>{
     try{
         const url_spellcheck = `https://dictionary.cambridge.org/us/spellcheck/english-chinese-traditional/?q=${text}`;
         const response = await AxiosInstance.get(url_spellcheck);

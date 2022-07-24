@@ -1,5 +1,5 @@
 import { Client, WebhookEvent, TextMessage, MessageAPIResponseBase } from '@line/bot-sdk';
-import { emojiCheck } from './text-process';
+import { emojiCheck, englishCheck} from './text-process';
 import {fetchCambridge} from './cambridge';
 
 
@@ -47,11 +47,17 @@ export const textEventHandler = async (event: WebhookEvent, client: Client): Pro
     if(report){
         reply = `Please report the issue in the form! 🙇‍♀️ https://forms.gle/aawPQNEYfEgwyvCi8 `
     }
+    // Check if contains emoji
+    else if(emojiCheck(text) != ''){  
+        reply = emojiCheck(text);
+    }        
+    // Check if contains non-enlish character
+    else if(englishCheck(text) != ''){
+        reply = englishCheck(text);
+    }
     // Look up translation
     else{
-        // If contains emoji return the default reply 
-        // Otherwise fetch the word definition from cambridge dictionary
-        reply = (emojiCheck(text) != '') ? (emojiCheck(text)) : await fetchCambridge(text);
+        reply = await fetchCambridge(text);
     }
     
     // Create a new message.
