@@ -1,7 +1,10 @@
-import { Client, WebhookEvent, TextMessage, MessageAPIResponseBase } from '@line/bot-sdk';
+import { Client, WebhookEvent, TextMessage, MessageAPIResponseBase, StickerMessage} from '@line/bot-sdk';
 import { emojiCheck, englishCheck} from './text-process';
 import {fetchCambridge} from './cambridge';
 
+function randomInteger(min: number, max: number) {
+  return Math.floor(Math.random() * (max - min + 1)) + min;
+}
 
 export const followEventHandler = async (event: WebhookEvent, client: Client): Promise<MessageAPIResponseBase | undefined> => {
     if (event.type !== 'follow') {
@@ -24,7 +27,6 @@ export const followEventHandler = async (event: WebhookEvent, client: Client): P
     // Reply to the user.
     await client.replyMessage(replyToken, response);
 }
-
 
 
 // Function handler to receive the text.
@@ -94,7 +96,7 @@ export const audioEventHandler = async (event: WebhookEvent, client: Client): Pr
     }
 
     const { replyToken } = event;
-    let reply = "Ooops...I'm better at recognizing words 👀";
+    let reply = "Ooops...I'm better at recognizing words... 👀";
      // Create a new message.
     const response: TextMessage = {
         type: 'text',
@@ -128,7 +130,7 @@ export const fileEventHandler = async (event: WebhookEvent, client: Client): Pro
     }
 
     const { replyToken } = event;
-    let reply = "Stop telling people more than they need to know 👻";
+    let reply = "Stop telling people more than they need to know! 👻";
      // Create a new message.
     const response: TextMessage = {
         type: 'text',
@@ -138,3 +140,40 @@ export const fileEventHandler = async (event: WebhookEvent, client: Client): Pro
     // Reply to the user.
     await client.replyMessage(replyToken, response);
 }
+
+export const videoEventHandler = async (event: WebhookEvent, client: Client): Promise<MessageAPIResponseBase | undefined> => {
+    if (event.type !== 'message' || event.message.type !== 'video') {
+        return;
+    }
+
+    const { replyToken } = event;
+    let reply = "Thanks for sharing! 😎";
+     // Create a new message.
+    const response: TextMessage = {
+        type: 'text',
+        text: reply,
+    };
+
+    // Reply to the user.
+    await client.replyMessage(replyToken, response);
+}
+
+export const stickerEventHandler = async (event: WebhookEvent, client: Client): Promise<MessageAPIResponseBase | undefined> => {
+    if (event.type !== 'message' || event.message.type !== 'file') {
+        return;
+    }
+    
+    var randomStick: number = randomInteger(51626494, 51626532);
+    const { replyToken } = event;
+    
+     // Create a new message.
+    const response: StickerMessage = {
+        type: "sticker",
+        packageId: "11538",
+        stickerId: randomStick.toString(),
+    };
+
+    // Reply to the user.
+    await client.replyMessage(replyToken, response);
+}
+

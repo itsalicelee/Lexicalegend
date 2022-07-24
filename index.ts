@@ -70,6 +70,12 @@ app.post(
                     else if(event.message.type === 'file'){
                         await EventHandler.fileEventHandler(event, client);
                     }
+                    else if(event.message.type === 'sticker'){
+                        await EventHandler.stickerEventHandler(event, client);
+                    }
+                    else if(event.message.type === 'video'){
+                        await EventHandler.videoEventHandler(event, client);
+                    }
                     break;
                 }
             }
