@@ -17,7 +17,8 @@
     "cheerio": "^1.0.0-rc.12",
     "emoji-regex": "^10.1.0",
     "express": "^4.17.1",
-    "htmlparser2": "^8.0.1"
+    "htmlparser2": "^8.0.1",
+    "messaging-api-line": "^1.1.0"
   },
   "devDependencies": {
     "@types/axios": "^0.14.0",
