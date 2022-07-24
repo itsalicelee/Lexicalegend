@@ -39,9 +39,12 @@ export const textEventHandler = async (event: WebhookEvent, client: Client): Pro
     const { text } = event.message;
 
     let reply = '';
+
+    // Bug report 
+    const reportArr: string[] = ['REPORT', 'ISSUE', 'BUG', '問題', '建議', '回報', '🐛'];
+    let report: boolean = reportArr.some(reportKey => text.includes(reportKey));
     
-    // Bug report
-    if(text.includes("REPORT") || text.includes("回報問題") || text.includes("建議") || text.includes("BUGS") || text.includes('🐛') ){
+    if(report){
         reply = `Please report the issue in the form! 🙇‍♀️ https://forms.gle/aawPQNEYfEgwyvCi8 `
     }
     // Look up translation
