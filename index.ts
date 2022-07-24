@@ -1,8 +1,7 @@
 // Import all dependencies, mostly using destructuring for better view.
 import { ClientConfig, Client, middleware, MiddlewareConfig, WebhookEvent, TextMessage, MessageAPIResponseBase } from '@line/bot-sdk';
 import express, { Application, Request, Response } from 'express';
-import {fetchCambridge} from './src/cambridge';
-import { emojiCheck } from './src/text-process';
+import {textEventHandler, imageEventHandler} from './src/event-handler';
 
 // Setup all LINE client and Express configurations.
 const clientConfig: ClientConfig = {
@@ -22,31 +21,6 @@ const client = new Client(clientConfig);
 
 // Create a new Express application.
 const app: Application = express();
-
-// Function handler to receive the text.
-const textEventHandler = async (event: WebhookEvent): Promise<MessageAPIResponseBase | undefined> => {
-    // Process all variables here.
-    if (event.type !== 'message' || event.message.type !== 'text') {
-        return;
-    }
-
-    // Process all message related variables here.
-    const { replyToken } = event;
-    const { text } = event.message;
-
-    // If contains emoji return the default reply 
-    // Otherwise fetch the word definition from cambridge dictionary
-    let reply = (emojiCheck(text) != '') ? (emojiCheck(text)) : await fetchCambridge(text);
-    
-    // Create a new message.
-    const response: TextMessage = {
-        type: 'text',
-        text: reply,
-    };
-    
-    // Reply to the user.
-    await client.replyMessage(replyToken, response);
-};
 
 // Register the LINE middleware.
 // As an alternative, you could also pass the middleware in the route handler, which is what is used here.
@@ -75,16 +49,25 @@ app.post(
     const results = await Promise.all(
       events.map(async (event: WebhookEvent) => {
         try {
-          await textEventHandler(event);
+            switch(event.type){
+                case 'message':{
+                    if(event.message.type === 'text'){
+                        await textEventHandler(event, client);
+                    }
+                    else if(event.message.type === 'image'){
+                        await imageEventHandler(event, client);
+                    }
+                    break;
+                }
+            }
         } catch (err: unknown) {
-          if (err instanceof Error) {
-            console.error(err);
-          }
-
-          // Return an error message.
-          return res.status(500).json({
-            status: 'error',
-          });
+            if (err instanceof Error) {
+                console.error(err);
+            }
+            // Return an error message.
+            return res.status(500).json({
+                status: 'error',
+            });
         }
       })
     );

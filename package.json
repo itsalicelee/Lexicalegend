@@ -1,6 +1,6 @@
 {
   "name": "lexicalegend",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "An example LINE bot with TypeScript made to echo messages",
   "main": "./dist/index.js",
   "scripts": {
@@ -17,8 +17,7 @@
     "cheerio": "^1.0.0-rc.12",
     "emoji-regex": "^10.1.0",
     "express": "^4.17.1",
-    "htmlparser2": "^8.0.1",
-    "messaging-api-line": "^1.1.0"
+    "htmlparser2": "^8.0.1"
   },
   "devDependencies": {
     "@types/axios": "^0.14.0",
