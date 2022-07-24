@@ -159,7 +159,7 @@ export const videoEventHandler = async (event: WebhookEvent, client: Client): Pr
 }
 
 export const stickerEventHandler = async (event: WebhookEvent, client: Client): Promise<MessageAPIResponseBase | undefined> => {
-    if (event.type !== 'message' || event.message.type !== 'file') {
+    if (event.type !== 'message' || event.message.type !== 'sticker') {
         return;
     }
     
