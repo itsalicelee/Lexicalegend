@@ -42,7 +42,7 @@ export const textEventHandler = async (event: WebhookEvent, client: Client): Pro
     let reply = '';
 
     // Bug report 
-    const reportArr: string[] = ['REPORT', 'ISSUE', 'BUG', '問題', '建議', '回報', '🐛', '🐜', '🐞'];
+    const reportArr: string[] = ['REPORT', 'ISSUE', 'BUG', 'FEEDBACK', '問題', '建議', '回報', '回饋', '🐛', '🐜', '🐞'];
     let report: boolean = reportArr.some(reportKey => text.includes(reportKey));
     
     if(report){
