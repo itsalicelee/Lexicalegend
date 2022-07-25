@@ -67,7 +67,7 @@ app.post(
                     case 'sticker':
                         await EventHandler.stickerEventHandler(event, client);
                     case 'file':
-                        await EventHandler.fileEventHandler(event, client)
+                        await EventHandler.fileEventHandler(event, client);
                 }
             }
         } catch (err: unknown) {
