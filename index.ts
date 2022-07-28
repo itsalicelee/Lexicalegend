@@ -22,6 +22,17 @@ const client = new Client(clientConfig);
 // Create a new Express application.
 const app: Application = express();
 
+interface IControl{
+    mode: string,
+    studyType: string, 
+};
+
+
+export var controlPanel: IControl = {
+    mode: 'dict',
+    studyType: 'none'
+};
+
 // Register the LINE middleware.
 // As an alternative, you could also pass the middleware in the route handler, which is what is used here.
 // app.use(middleware(middlewareConfig));

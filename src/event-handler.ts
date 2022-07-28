@@ -1,6 +1,8 @@
+import { suggestWord } from './suggest';
 import { Client, WebhookEvent, TextMessage, MessageAPIResponseBase, StickerMessage, QuickReply} from '@line/bot-sdk';
 import { emojiCheck, englishCheck} from './text-process';
 import {fetchCambridge} from './cambridge';
+import { controlPanel } from '..';
 
 function randomInteger(min: number, max: number) {
   return Math.floor(Math.random() * (max - min + 1)) + min;
@@ -45,13 +47,16 @@ export const textEventHandler = async (event: WebhookEvent, client: Client): Pro
     const reportArr: string[] = ['REPORT', 'ISSUE', 'BUG', 'FEEDBACK', '問題', '建議', '回報', '回饋', '🐛', '🐜', '🐞'];
     const suggestArr: string[] = ['STUDY', '學習'];
     let report: boolean = reportArr.some(key => text.includes(key));
-    let suggest: boolean = suggestArr.some(key => text.includes(key));
-    
+    if(suggestArr.some(key => text.includes(key))){
+        controlPanel.mode = 'suggest';
+    }
+    if(controlPanel.mode === 'suggest'){
+        suggestEventHandler(event, client, text, replyToken);
+        return;
+    }
+
     if(report){
         reply = `Please report the issue in the form! 🙇‍♀️ https://forms.gle/aawPQNEYfEgwyvCi8 `
-    }
-    else if(suggest){
-        reply = 'What kind of exam would you like to study?';
     }
     // Check if contains emoji
     else if(emojiCheck(text) != ''){  
@@ -71,40 +76,7 @@ export const textEventHandler = async (event: WebhookEvent, client: Client): Pro
         type: 'text',
         text: reply,
     };
-    if(suggest){
-        response.quickReply = {
-            "items": [
-                {
-                    "type": "action", // ③
-                    "imageUrl": "https://img.icons8.com/color/344/1-c.png",
-                    "action": {
-                        "type": "message",
-                        "label": "TOEFL",
-                        "text": "TOEFL"
-                    }
-                },
-                {
-                    "type": "action", // ③
-                    "imageUrl": "https://img.icons8.com/color/344/2-c.png",
-                    "action": {
-                        "type": "message",
-                        "label": "GRE",
-                        "text": "GRE"
-                    }
-                },
-                {
-                    "type": "action", // ③
-                    "imageUrl": "https://img.icons8.com/color/344/3-c.png",
-                    "action": {
-                        "type": "message",
-                        "label": "TOEIC",
-                        "text": "TOEIC"
-                    }
-                }
-            ]
-        };
-    }
-    
+
     // Reply to the user.
     await client.replyMessage(replyToken, response);
 };
@@ -214,3 +186,60 @@ export const fileEventHandler = async (event: WebhookEvent, client: Client): Pro
     await client.replyMessage(replyToken, response);
 }
 
+export const suggestEventHandler = async (event: WebhookEvent, client: Client, text: string, replyToken: string): Promise<MessageAPIResponseBase | undefined> => {
+    let reply = 'What kind of exam would you like to study?';
+    var response: TextMessage = {
+        type: 'text',
+        text: reply,
+    }
+    // check type: from dict mode to suggest mode 
+    if(controlPanel.studyType === 'none'){ 
+        controlPanel.mode = 'suggest';
+        response.quickReply = {
+            "items": [
+                {
+                    "type": "action", // ③
+                    "imageUrl": "https://img.icons8.com/color/344/1-c.png",
+                    "action": {
+                        "type": "message",
+                        "label": "TOEFL",
+                        "text": "TOEFL"
+                    }
+                },
+                {
+                    "type": "action", // ③
+                    "imageUrl": "https://img.icons8.com/color/344/2-c.png",
+                    "action": {
+                        "type": "message",
+                        "label": "GRE",
+                        "text": "GRE"
+                    }
+                },
+                {
+                    "type": "action", // ③
+                    "imageUrl": "https://img.icons8.com/color/344/3-c.png",
+                    "action": {
+                        "type": "message",
+                        "label": "TOEIC",
+                        "text": "TOEIC"
+                    }
+                }
+            ]
+        }
+    }
+    else{  // has studyType, recommend word
+        var suggestedWord: string = '';
+        switch(text){
+            case 'TOEFL':
+                suggestedWord = suggestWord('toefl');
+            case 'GRE':
+                suggestedWord = suggestWord('gre');
+            case 'TOEIC':
+                suggestedWord = suggestWord('toeic');
+        }
+        reply = await fetchCambridge(suggestedWord);
+    }
+
+    await client.replyMessage(replyToken, response);
+    return;
+}
