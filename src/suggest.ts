@@ -1,7 +1,7 @@
 import { assert } from "console";
 import vocab from "../lib/vocab.json";
 
-export const suggestToefl = (type: string): string => {
+export const suggestWord = (type: string): string => {
     assert(type === 'toefl' || type === 'gre' || type === 'toeic');
     var words: string[] = [];
     
@@ -15,6 +15,5 @@ export const suggestToefl = (type: string): string => {
     }
     return words[Math.floor((Math.random()*words.length))];
 }
-
 
 // console.log(suggestToefl("gre"));

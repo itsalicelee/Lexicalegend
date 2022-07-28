@@ -1,4 +1,4 @@
-import { Client, WebhookEvent, TextMessage, MessageAPIResponseBase, StickerMessage} from '@line/bot-sdk';
+import { Client, WebhookEvent, TextMessage, MessageAPIResponseBase, StickerMessage, QuickReply} from '@line/bot-sdk';
 import { emojiCheck, englishCheck} from './text-process';
 import {fetchCambridge} from './cambridge';
 
@@ -43,10 +43,15 @@ export const textEventHandler = async (event: WebhookEvent, client: Client): Pro
 
     // Bug report 
     const reportArr: string[] = ['REPORT', 'ISSUE', 'BUG', 'FEEDBACK', '問題', '建議', '回報', '回饋', '🐛', '🐜', '🐞'];
-    let report: boolean = reportArr.some(reportKey => text.includes(reportKey));
+    const suggestArr: string[] = ['STUDY', '學習'];
+    let report: boolean = reportArr.some(key => text.includes(key));
+    let suggest: boolean = suggestArr.some(key => text.includes(key));
     
     if(report){
         reply = `Please report the issue in the form! 🙇‍♀️ https://forms.gle/aawPQNEYfEgwyvCi8 `
+    }
+    else if(suggest){
+        reply = 'What kind of exam would you like to study?';
     }
     // Check if contains emoji
     else if(emojiCheck(text) != ''){  
@@ -60,12 +65,45 @@ export const textEventHandler = async (event: WebhookEvent, client: Client): Pro
     else{
         reply = await fetchCambridge(text);
     }
-    
+
     // Create a new message.
-    const response: TextMessage = {
+    var response: TextMessage = {
         type: 'text',
         text: reply,
     };
+    if(suggest){
+        response.quickReply = {
+            "items": [
+                {
+                    "type": "action", // ③
+                    "imageUrl": "https://img.icons8.com/color/344/1-c.png",
+                    "action": {
+                        "type": "message",
+                        "label": "TOEFL",
+                        "text": "TOEFL"
+                    }
+                },
+                {
+                    "type": "action", // ③
+                    "imageUrl": "https://img.icons8.com/color/344/2-c.png",
+                    "action": {
+                        "type": "message",
+                        "label": "GRE",
+                        "text": "GRE"
+                    }
+                },
+                {
+                    "type": "action", // ③
+                    "imageUrl": "https://img.icons8.com/color/344/3-c.png",
+                    "action": {
+                        "type": "message",
+                        "label": "TOEIC",
+                        "text": "TOEIC"
+                    }
+                }
+            ]
+        };
+    }
     
     // Reply to the user.
     await client.replyMessage(replyToken, response);
@@ -175,3 +213,4 @@ export const fileEventHandler = async (event: WebhookEvent, client: Client): Pro
     // Reply to the user.
     await client.replyMessage(replyToken, response);
 }
+
