@@ -9,6 +9,7 @@ Learn vocabulary with your Line chatbot everyday!
   <a href="https://lin.ee/ri5IzEB"><img src="https://scdn.line-apps.com/n/line_add_friends/btn/zh-Hant.png" alt="加入好友" height="34"></a>
   - Line ID: `@621plnyb`
   - QR code:
+    
     <img src="./img/qr_code.png" alt="drawing" width="200"/>
 
 ## Features ✨
