@@ -50,9 +50,11 @@ export const textEventHandler = async (event: WebhookEvent, client: Client): Pro
     if(suggestArr.some(key => text.includes(key))){
         controlPanel.mode = 'studyType';
         studyTypeEventHandler(event, client, text, replyToken);
+        return;
     }
     if(controlPanel.mode === 'suggest'){
         suggestEventHandler(event, client, text, replyToken);
+        return;
     }
 
     if(report){
@@ -207,6 +209,7 @@ export const suggestEventHandler = async (event: WebhookEvent, client: Client, t
             console.log("case TOEIC");
             suggestedWord = suggestWord('toeic');
     }
+    console.log("Suggest Word" + suggestWord);
     reply = await fetchCambridge(suggestedWord);
     
     await client.replyMessage(replyToken, response);
@@ -215,6 +218,7 @@ export const suggestEventHandler = async (event: WebhookEvent, client: Client, t
 
 export const studyTypeEventHandler = async (event: WebhookEvent, client: Client, text: string, replyToken: string): Promise<MessageAPIResponseBase | undefined> => {
     if(controlPanel.mode != 'studyType'){ return; }
+    console.log("Study Type Event Handler!");
     let reply = 'What kind of exam would you like to study?';
     var response: TextMessage = {
         type: 'text',
