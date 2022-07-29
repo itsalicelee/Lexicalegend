@@ -48,7 +48,8 @@ export const textEventHandler = async (event: WebhookEvent, client: Client): Pro
     const suggestArr: string[] = ['STUDY', '學習'];
     let report: boolean = reportArr.some(key => text.includes(key));
     if(suggestArr.some(key => text.includes(key))){
-        controlPanel.mode = 'suggest';
+        controlPanel.mode = 'studyType';
+        studyTypeEventHandler(event, client, text, replyToken);
     }
     if(controlPanel.mode === 'suggest'){
         suggestEventHandler(event, client, text, replyToken);
@@ -187,59 +188,67 @@ export const fileEventHandler = async (event: WebhookEvent, client: Client): Pro
 }
 
 export const suggestEventHandler = async (event: WebhookEvent, client: Client, text: string, replyToken: string): Promise<MessageAPIResponseBase | undefined> => {
+    if(controlPanel.mode != 'suggest'){ return; }
+    let reply: string = '';
+    var response: TextMessage = {
+        type: 'text',
+        text: reply,
+    }
+    
+    var suggestedWord: string = '';
+    switch(text){
+        case 'TOEFL':
+            suggestedWord = suggestWord('toefl');
+        case 'GRE':
+            suggestedWord = suggestWord('gre');
+        case 'TOEIC':
+            suggestedWord = suggestWord('toeic');
+    }
+    reply = await fetchCambridge(suggestedWord);
+    
+    await client.replyMessage(replyToken, response);
+    return;
+}
+
+export const studyTypeEventHandler = async (event: WebhookEvent, client: Client, text: string, replyToken: string): Promise<MessageAPIResponseBase | undefined> => {
+    if(controlPanel.mode != 'studyType'){ return; }
     let reply = 'What kind of exam would you like to study?';
     var response: TextMessage = {
         type: 'text',
         text: reply,
     }
-    // check type: from dict mode to suggest mode 
-    if(controlPanel.studyType === 'none'){ 
-        controlPanel.mode = 'suggest';
-        response.quickReply = {
-            "items": [
-                {
-                    "type": "action", // ③
-                    "imageUrl": "https://img.icons8.com/color/344/1-c.png",
-                    "action": {
-                        "type": "message",
-                        "label": "TOEFL",
-                        "text": "TOEFL"
-                    }
-                },
-                {
-                    "type": "action", // ③
-                    "imageUrl": "https://img.icons8.com/color/344/2-c.png",
-                    "action": {
-                        "type": "message",
-                        "label": "GRE",
-                        "text": "GRE"
-                    }
-                },
-                {
-                    "type": "action", // ③
-                    "imageUrl": "https://img.icons8.com/color/344/3-c.png",
-                    "action": {
-                        "type": "message",
-                        "label": "TOEIC",
-                        "text": "TOEIC"
-                    }
+    response.quickReply = {
+        "items": [
+            {
+                "type": "action", // ③
+                "imageUrl": "https://img.icons8.com/color/344/1-c.png",
+                "action": {
+                    "type": "message",
+                    "label": "TOEFL",
+                    "text": "TOEFL"
                 }
-            ]
-        }
+            },
+            {
+                "type": "action", // ③
+                "imageUrl": "https://img.icons8.com/color/344/2-c.png",
+                "action": {
+                    "type": "message",
+                    "label": "GRE",
+                    "text": "GRE"
+                }
+            },
+            {
+                "type": "action", // ③
+                "imageUrl": "https://img.icons8.com/color/344/3-c.png",
+                "action": {
+                    "type": "message",
+                    "label": "TOEIC",
+                    "text": "TOEIC"
+                }
+            }
+        ]
     }
-    else{  // has studyType, recommend word
-        var suggestedWord: string = '';
-        switch(text){
-            case 'TOEFL':
-                suggestedWord = suggestWord('toefl');
-            case 'GRE':
-                suggestedWord = suggestWord('gre');
-            case 'TOEIC':
-                suggestedWord = suggestWord('toeic');
-        }
-        reply = await fetchCambridge(suggestedWord);
-    }
-
+    controlPanel.mode = 'suggest';
     await client.replyMessage(replyToken, response);
     return;
 }

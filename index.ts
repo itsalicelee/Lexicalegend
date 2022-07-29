@@ -23,8 +23,8 @@ const client = new Client(clientConfig);
 const app: Application = express();
 
 interface IControl{
-    mode: string,
-    studyType: string, 
+    mode: 'dict' | 'suggest' | 'studyType',
+    studyType: 'none' | 'GRE' | 'TOEFL' | 'TOEIC', 
 };
 
 
