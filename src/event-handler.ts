@@ -49,11 +49,11 @@ export const textEventHandler = async (event: WebhookEvent, client: Client): Pro
     let report: boolean = reportArr.some(key => text.includes(key));
     if(suggestArr.some(key => text.includes(key))){
         controlPanel.mode = 'studyType';
-        studyTypeEventHandler(event, client, text, replyToken);
+        studyTypeEventHandler(client, replyToken);
         return;
     }
     if(controlPanel.mode === 'suggest'){
-        suggestEventHandler(event, client, text, replyToken);
+        suggestEventHandler(client, text, replyToken);
         return;
     }
 
@@ -188,7 +188,15 @@ export const fileEventHandler = async (event: WebhookEvent, client: Client): Pro
     await client.replyMessage(replyToken, response);
 }
 
-export const suggestEventHandler = async (event: WebhookEvent, client: Client, text: string, replyToken: string): Promise<MessageAPIResponseBase | undefined> => {
+
+/** 
+ * Given a text, randomly selects a word from the corresponding wordlist and return its def
+ * @param client
+ * @param text: TOEFL | GRE | TOEIC from quick reply 
+ * @param replyToken
+ * @returns quick reply of studyType(TOEFL, GRE, TOEIC)
+ */
+export const suggestEventHandler = async (client: Client, text: string, replyToken: string): Promise<MessageAPIResponseBase | undefined> => {
     if(controlPanel.mode != 'suggest'){ return; }
     console.log("Suggest Event Handler!");
     let reply: string = '';
@@ -202,7 +210,7 @@ export const suggestEventHandler = async (event: WebhookEvent, client: Client, t
         case 'TOEIC':
             suggestedWord = suggestWord('toeic');
     }
-    
+    //TODO:  suggested word not found
     reply = await fetchCambridge(suggestedWord);
     reply = `✅ ${suggestedWord} \n\n` + reply;
     var response: TextMessage = {
@@ -210,12 +218,19 @@ export const suggestEventHandler = async (event: WebhookEvent, client: Client, t
         text: reply,
     }
     await client.replyMessage(replyToken, response);
-    //TODO: default return back to dictionary mode
+    //TODO: default return back to dictionary mode, add router quick reply
     controlPanel.mode = 'dict';
     return;
 }
 
-export const studyTypeEventHandler = async (event: WebhookEvent, client: Client, text: string, replyToken: string): Promise<MessageAPIResponseBase | undefined> => {
+
+/** 
+ * Ask user studyType by quick reply and change mode to suggest
+ * @param client
+ * @param replyToken
+ * @returns quick reply of studyType(TOEFL, GRE, TOEIC)
+ */
+export const studyTypeEventHandler = async (client: Client, replyToken: string): Promise<MessageAPIResponseBase | undefined> => {
     if(controlPanel.mode != 'studyType'){ return; }
     console.log("Study Type Event Handler!");
     let reply = 'What kind of exam would you like to study?';
@@ -226,7 +241,7 @@ export const studyTypeEventHandler = async (event: WebhookEvent, client: Client,
     response.quickReply = {
         "items": [
             {
-                "type": "action", // ③
+                "type": "action",
                 "imageUrl": "https://img.icons8.com/color/344/1-c.png",
                 "action": {
                     "type": "message",
@@ -235,7 +250,7 @@ export const studyTypeEventHandler = async (event: WebhookEvent, client: Client,
                 }
             },
             {
-                "type": "action", // ③
+                "type": "action",
                 "imageUrl": "https://img.icons8.com/color/344/2-c.png",
                 "action": {
                     "type": "message",
@@ -244,7 +259,7 @@ export const studyTypeEventHandler = async (event: WebhookEvent, client: Client,
                 }
             },
             {
-                "type": "action", // ③
+                "type": "action",
                 "imageUrl": "https://img.icons8.com/color/344/3-c.png",
                 "action": {
                     "type": "message",
@@ -254,6 +269,7 @@ export const studyTypeEventHandler = async (event: WebhookEvent, client: Client,
             }
         ]
     }
+    // change mode to suggest after suggesting studyType
     controlPanel.mode = 'suggest';
     await client.replyMessage(replyToken, response);
     return;
