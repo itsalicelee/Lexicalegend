@@ -1,102 +1,29 @@
-# LINE Echo Bot with TypeScript
+# Lexicalegend 👩‍🏫
 
-An example LINE bot to echo message with TypeScript. The bot is coded according to TypeScript's best practices.
+Learn vocabulary with your Line chatbot everyday!
 
-## Prerequisite
+## How to use 🙋‍♀️
 
-- Git
-- Node.js version 10 and up
-- Heroku CLI (optional)
-- LINE Developers Account for the bot
+- Add [Lexicalegend](https://qr-official.line.me/sid/M/621plnyb.png?shortenUrl=true) as your friend!
 
-## Installation
+  <a href="https://lin.ee/ri5IzEB"><img src="https://scdn.line-apps.com/n/line_add_friends/btn/zh-Hant.png" alt="加入好友" height="34"></a>
+  - Line ID: `@621plnyb`
+  - QR code:
+    <img src="./img/qr_code.png" alt="drawing" width="200"/>
 
-- Clone the repository.
+## Features ✨
 
-```bash
-git clone https://github.com/line/line-bot-sdk-nodejs.git
-```
+- Type a word to search for its Chinese translation
+- Type **`STUDY`** to choose learn vocabulary from different exams
+- Currently support:  
+  - TOEFL: 王玉梅托福詞彙
+  - GRE: Mason 2000
+  - TOEIC
+- Type **`REPORT`** to [report bugs and/or give suggestions](https://forms.gle/kSRzp9vTVqrqintr9)
 
-- Change directory to the example.
+## To-Do List 📝
 
-```bash
-cd line-bot-sdk-nodejs/examples/echo-bot-ts
-```
-
-- Install all dependencies.
-
-```bash
-npm install
-```
-
-- Configure all of the environment variables.
-
-```bash
-export CHANNEL_ACCESS_TOKEN=<YOUR_CHANNEL_ACCESS_TOKEN>
-export CHANNEL_SECRET=<YOUR_CHANNEL_SECRET>
-export PORT=<YOUR_PORT>
-```
-
-- Setup your webhook URL in your LINE Official Account to be in the following format. Don't forget to disable the greeting messages and auto-response messages for convenience.
-
-```bash
-https://example-url.com/webhook
-```
-
-- Compile the TypeScript files.
-
-```bash
-npm run build
-```
-
-- Run the application.
-
-```bash
-npm start
-```
-
-## Alternative Installation
-
-If you want to deploy it via Heroku, it is also possible and is even easier for testing purposes.
-
-- Clone the repository.
-
-```bash
-git clone https://github.com/line/line-bot-sdk-nodejs.git
-```
-
-- Change directory to the example.
-
-```bash
-cd line-bot-sdk-nodejs/examples/echo-bot-ts
-```
-
-- Create a Heroku application.
-
-```bash
-git init
-heroku create <YOUR_APP_NAME> # Do not specify for a random name
-```
-
-- Setup the environment variables, and don't forget to setup your webhook URL (from the Heroku application that you have just created) in your LINE Offical Account. The webhook URL will still accept the following format: `https://example-url.com.herokuapp.com/webhook`.
-
-```bash
-heroku config:set CHANNEL_ACCESS_TOKEN=YOUR_CHANNEL_ACCESS_TOKEN
-heroku config:set CHANNEL_SECRET=YOUR_CHANNEL_SECRET
-```
-
-- Push the application to the server.
-
-```bash
-git add .
-git commit -m "Initial commit for Heroku testing"
-git push heroku master
-```
-
-- Open your application.
-
-```bash
-heroku open
-```
-
-- Done!
+- [ ] Usage in greeting message
+- [ ] Add examples using the vocabular
+- [ ] Demo Video
+- [ ] Add image for vocabulary
