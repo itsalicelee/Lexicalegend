@@ -197,7 +197,7 @@ export const suggestEventHandler = async (client: Client, text: string, replyTok
     console.log("Suggest Event Handler!");
 
     var suggestedWord: string = '';
-    text = text.toLowerCase().trim();
+    text = text.toUpperCase().trim();
     if(text === 'TOEFL'){
         suggestedWord = utils.suggestWord('toefl');
     }
