@@ -204,7 +204,7 @@ export const suggestEventHandler = async (event: WebhookEvent, client: Client, t
     }
     
     reply = await fetchCambridge(suggestedWord);
-    reply = `✅ ${suggestWord} \n\n` + reply;
+    reply = `✅ ${suggestedWord} \n\n` + reply;
     var response: TextMessage = {
         type: 'text',
         text: reply,
