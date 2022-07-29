@@ -210,7 +210,8 @@ export const suggestEventHandler = async (client: Client, text: string, replyTok
     else if(text === 'TOEIC'){
         suggestedWord = suggestWord('toeic');
     }
-    else{ // user type instead of using quick reply 
+    else{ // user type something else instead of using quick reply 
+        controlPanel.mode = 'studyType';
         studyTypeEventHandler(client, replyToken);
         return;
     }
