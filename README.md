@@ -6,9 +6,9 @@ Learn vocabulary with your Line chatbot everyday!
 
 - Add [Lexicalegend](https://qr-official.line.me/sid/M/621plnyb.png?shortenUrl=true) as your friend!
 
-  <a href="https://lin.ee/ri5IzEB"><img src="https://scdn.line-apps.com/n/line_add_friends/btn/zh-Hant.png" alt="加入好友" height="34"></a>
-  - Line ID: `@621plnyb`
-  - QR code:
+  <a href="https://lin.ee/ri5IzEB"><img src="https://scdn.line-apps.com/n/line_add_friends/btn/zh-Hant.png" alt="加入好友" height="36"></a>
+- Line ID: `@621plnyb`
+- QR code:
     
     <img src="./img/qr_code.png" alt="drawing" width="200"/>
 
