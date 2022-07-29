@@ -192,11 +192,7 @@ export const suggestEventHandler = async (event: WebhookEvent, client: Client, t
     if(controlPanel.mode != 'suggest'){ return; }
     console.log("Suggest Event Handler!");
     let reply: string = '';
-    var response: TextMessage = {
-        type: 'text',
-        text: reply,
-    }
-    
+
     var suggestedWord: string = '';
     switch(text){
         case 'TOEFL':
@@ -209,9 +205,13 @@ export const suggestEventHandler = async (event: WebhookEvent, client: Client, t
             console.log("case TOEIC");
             suggestedWord = suggestWord('toeic');
     }
-    console.log("Suggest Word" + suggestWord);
+    console.log("Suggest Word: " + suggestWord);
     reply = await fetchCambridge(suggestedWord);
     
+    var response: TextMessage = {
+        type: 'text',
+        text: reply,
+    }
     await client.replyMessage(replyToken, response);
     return;
 }
