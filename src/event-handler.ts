@@ -196,23 +196,22 @@ export const suggestEventHandler = async (event: WebhookEvent, client: Client, t
     var suggestedWord: string = '';
     switch(text){
         case 'TOEFL':
-            console.log("case TOEFL");
             suggestedWord = suggestWord('toefl');
         case 'GRE':
-            console.log("case GRE");
             suggestedWord = suggestWord('gre');
         case 'TOEIC':
-            console.log("case TOEIC");
             suggestedWord = suggestWord('toeic');
     }
-    console.log("Suggest Word: " + suggestWord);
-    reply = await fetchCambridge(suggestedWord);
     
+    reply = await fetchCambridge(suggestedWord);
+    reply = `✅ ${suggestWord} \n\n` + reply;
     var response: TextMessage = {
         type: 'text',
         text: reply,
     }
     await client.replyMessage(replyToken, response);
+    //TODO: default return back to dictionary mode
+    controlPanel.mode = 'dict';
     return;
 }
 
