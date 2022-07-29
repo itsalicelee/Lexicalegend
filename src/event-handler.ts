@@ -199,18 +199,24 @@ export const fileEventHandler = async (event: WebhookEvent, client: Client): Pro
 export const suggestEventHandler = async (client: Client, text: string, replyToken: string): Promise<MessageAPIResponseBase | undefined> => {
     if(controlPanel.mode != 'suggest'){ return; }
     console.log("Suggest Event Handler!");
-    let reply: string = '';
 
     var suggestedWord: string = '';
-    switch(text){
-        case 'TOEFL':
-            suggestedWord = suggestWord('toefl');
-        case 'GRE':
-            suggestedWord = suggestWord('gre');
-        case 'TOEIC':
-            suggestedWord = suggestWord('toeic');
+    if(text === 'TOEFL'){
+        suggestedWord = suggestWord('toefl');
     }
+    else if(text === 'GRE'){
+        suggestedWord = suggestWord('gre');
+    }
+    else if(text === 'TOEIC'){
+        suggestedWord = suggestWord('toeic');
+    }
+    else{ // user type instead of using quick reply 
+        studyTypeEventHandler(client, replyToken);
+        return;
+    }
+
     //TODO:  suggested word not found
+    let reply: string = '';
     reply = await fetchCambridge(suggestedWord);
     reply = `✅ ${suggestedWord} \n\n` + reply;
     var response: TextMessage = {
