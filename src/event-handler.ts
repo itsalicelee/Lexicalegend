@@ -53,7 +53,6 @@ export const textEventHandler = async (event: WebhookEvent, client: Client): Pro
     }
     if(controlPanel.mode === 'suggest'){
         suggestEventHandler(event, client, text, replyToken);
-        return;
     }
 
     if(report){
@@ -189,6 +188,7 @@ export const fileEventHandler = async (event: WebhookEvent, client: Client): Pro
 
 export const suggestEventHandler = async (event: WebhookEvent, client: Client, text: string, replyToken: string): Promise<MessageAPIResponseBase | undefined> => {
     if(controlPanel.mode != 'suggest'){ return; }
+    console.log("Suggest Event Handler!");
     let reply: string = '';
     var response: TextMessage = {
         type: 'text',
@@ -198,10 +198,13 @@ export const suggestEventHandler = async (event: WebhookEvent, client: Client, t
     var suggestedWord: string = '';
     switch(text){
         case 'TOEFL':
+            console.log("case TOEFL");
             suggestedWord = suggestWord('toefl');
         case 'GRE':
+            console.log("case GRE");
             suggestedWord = suggestWord('gre');
         case 'TOEIC':
+            console.log("case TOEIC");
             suggestedWord = suggestWord('toeic');
     }
     reply = await fetchCambridge(suggestedWord);
