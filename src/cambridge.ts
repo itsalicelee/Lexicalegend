@@ -23,7 +23,7 @@ export async function fetchCambridge(text: string): Promise<string>{
             def = def.substring(0,1500);
         }
         // check spelling        
-        var result = (def === '') ?  ("Are you looking for: \n " + await getSuggestLst(text)) : def;
+        var result = (def === '') ?  ("Are you looking for: \n " + await getSpellCheckLst(text)) : def;
         console.log(result);
         
         return result;
@@ -34,19 +34,19 @@ export async function fetchCambridge(text: string): Promise<string>{
 }
 
 
-async function getSuggestLst(text:string): Promise<string>{
+async function getSpellCheckLst(text:string): Promise<string>{
     try{
         const url_spellcheck = `https://dictionary.cambridge.org/us/spellcheck/english-chinese-traditional/?q=${text}`;
         const response = await AxiosInstance.get(url_spellcheck);
         const html = response.data;
         const $ = Cheerio.load(html);
         // format suggeting words
-        const suggestionLst = $('.lbt.lp-5.lpl-20').text().replace(/  +/g, ' ');
+        const spellCheckLst = $('.lbt.lp-5.lpl-20').text().replace(/  +/g, ' ');
         
-        if(suggestionLst.length > 3000){
-            return suggestionLst.substring(0,1500);
+        if(spellCheckLst.length > 3000){
+            return spellCheckLst.substring(0,1500);
         }
-        return suggestionLst;
+        return spellCheckLst;
     }
     catch(e){
         throw Error("Failed fetching word suggesting QQ");

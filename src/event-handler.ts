@@ -1,12 +1,8 @@
-import { suggestWord } from './suggest';
 import { Client, WebhookEvent, TextMessage, MessageAPIResponseBase, StickerMessage, QuickReply} from '@line/bot-sdk';
 import { emojiCheck, englishCheck} from './text-process';
 import {fetchCambridge} from './cambridge';
 import { controlPanel } from '..';
-
-function randomInteger(min: number, max: number) {
-  return Math.floor(Math.random() * (max - min + 1)) + min;
-}
+import * as utils from './utils';
 
 export const followEventHandler = async (event: WebhookEvent, client: Client): Promise<MessageAPIResponseBase | undefined> => {
     if (event.type !== 'follow') {
@@ -157,7 +153,8 @@ export const stickerEventHandler = async (event: WebhookEvent, client: Client): 
         return;
     }
     
-    var randomStick: number = randomInteger(51626494, 51626532);
+    //  generate a sticker id from the corresponding packageID
+    var randomStick: number = utils.randomInteger(51626494, 51626532);
     const { replyToken } = event;
     
      // Create a new message.
@@ -188,7 +185,6 @@ export const fileEventHandler = async (event: WebhookEvent, client: Client): Pro
     await client.replyMessage(replyToken, response);
 }
 
-
 /** 
  * Given a text, randomly selects a word from the corresponding wordlist and return its def
  * @param client
@@ -201,15 +197,15 @@ export const suggestEventHandler = async (client: Client, text: string, replyTok
     console.log("Suggest Event Handler!");
 
     var suggestedWord: string = '';
-    text = text.toUpperCase().trim();
+    text = text.toLowerCase().trim();
     if(text === 'TOEFL'){
-        suggestedWord = suggestWord('toefl');
+        suggestedWord = utils.suggestWord('toefl');
     }
     else if(text === 'GRE'){
-        suggestedWord = suggestWord('gre');
+        suggestedWord = utils.suggestWord('gre');
     }
     else if(text === 'TOEIC'){
-        suggestedWord = suggestWord('toeic');
+        suggestedWord = utils.suggestWord('toeic');
     }
     else{ // user type something else instead of using quick reply 
         controlPanel.mode = 'studyType';
@@ -230,7 +226,6 @@ export const suggestEventHandler = async (client: Client, text: string, replyTok
     controlPanel.mode = 'dict';
     return;
 }
-
 
 /** 
  * Ask user studyType by quick reply and change mode to suggest
