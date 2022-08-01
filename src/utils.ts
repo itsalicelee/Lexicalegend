@@ -15,13 +15,17 @@ export const suggestWord = (type: string): string => {
     assert(type === 'toefl' || type === 'gre' || type === 'toeic');
     var words: string[] = [];
     
-    switch(type){
-        case 'toefl':
-            words = vocab["toefl"];
-        case 'gre':
-            words = vocab['gre'];
-        case 'toeic':
-            words = vocab['toeic'];        
+    if(type === 'toefl'){
+        words = vocab.toefl;
     }
-    return words[Math.floor((Math.random()*words.length))];
+    else if(type === 'gre'){
+        words = vocab.gre;
+    }
+    else if(type === 'toefl'){
+        words = vocab.toeic;
+    }
+    const index = Math.floor((Math.random()*words.length));
+    const result = words[index];    
+    
+    return result;
 }

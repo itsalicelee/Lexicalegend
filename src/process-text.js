@@ -19,9 +19,9 @@ for(let i = 0; i < toeicArr.length; i++){
     toeic.push(toeicArr[i].split('=')[0]);
 }
 
-const vocab = {toefl:toefl, gre:gre, toeic:toefl};
+const vocab = {toefl:toefl, gre:gre, toeic:toeic};
 
-fs.writeFile("./vocab.json", JSON.stringify(vocab), 'utf8', function (err) {
+fs.writeFile("../lib/vocab.json", JSON.stringify(vocab), 'utf8', function (err) {
     if (err) {
         return console.log(err);
     }
