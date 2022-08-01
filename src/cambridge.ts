@@ -20,13 +20,14 @@ export async function fetchCambridge(text: string): Promise<string>{
         // join the definitions into a string
         let def = defLst.join("\n");
         if(def.length > 3000){
-            def = def.substring(0,1500);
+            def = def.substring(0,2000);
         }
-        // check spelling        
-        var result = (def === '') ?  ("Are you looking for: \n " + await getSpellCheckLst(text)) : def;
-        console.log(result);
+
+        // check spelling 
+       
+        console.log(def);
         
-        return result;
+        return def;
     }
     catch(e){
         throw Error("Failed fetching word def QQ");
@@ -34,7 +35,7 @@ export async function fetchCambridge(text: string): Promise<string>{
 }
 
 
-async function getSpellCheckLst(text:string): Promise<string>{
+export async function getSpellCheckLst(text:string): Promise<string>{
     try{
         const url_spellcheck = `https://dictionary.cambridge.org/us/spellcheck/english-chinese-traditional/?q=${text}`;
         const response = await AxiosInstance.get(url_spellcheck);

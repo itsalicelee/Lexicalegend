@@ -1,6 +1,6 @@
 import { Client, WebhookEvent, TextMessage, MessageAPIResponseBase, StickerMessage, QuickReply} from '@line/bot-sdk';
 import { emojiCheck, englishCheck} from './text-process';
-import {fetchCambridge} from './cambridge';
+import {fetchCambridge, getSpellCheckLst} from './cambridge';
 import { controlPanel } from '..';
 import * as utils from './utils';
 
@@ -73,7 +73,13 @@ export const textEventHandler = async (event: WebhookEvent, client: Client): Pro
     }
     // Look up translation
     else{
-        reply = await fetchCambridge(text);
+        var def = await fetchCambridge(text);
+        if(def === ''){  // no this word, give spell check list
+            reply = "Are you looking for: \n " + await getSpellCheckLst(text);
+        }
+        else{
+            reply = def;
+        }
     }
 
     // Create a new message.
@@ -222,7 +228,14 @@ export const suggestEventHandler = async (client: Client, replyToken: string): P
 
     //TODO:  suggested word not found
     let reply: string = '';
-    reply = await fetchCambridge(suggestedWord);
+    var def = '';
+    while(def === ''){  // no this word, suggest new word again
+        suggestedWord = utils.suggestWord(controlPanel.studyType.toLowerCase());
+        def = await fetchCambridge(suggestedWord);
+    }
+    
+    reply = def;
+    
     reply = `✅ ${suggestedWord} \n\n` + reply;
     var response1: TextMessage = {
         type: 'text',
