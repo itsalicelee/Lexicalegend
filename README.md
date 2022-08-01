@@ -9,7 +9,7 @@ Learn vocabulary with your Line chatbot everyday!
   <a href="https://lin.ee/ri5IzEB"><img src="https://scdn.line-apps.com/n/line_add_friends/btn/zh-Hant.png" alt="加入好友" height="36"></a>
 - Line ID: `@621plnyb`
 - QR code:
-    
+
     <img src="./img/qr_code.png" alt="drawing" width="200"/>
 
 ## Features ✨
@@ -20,7 +20,7 @@ Learn vocabulary with your Line chatbot everyday!
   - TOEFL: 王玉梅托福詞彙
   - GRE: Mason 2000
   - TOEIC
-- Type **`REPORT`** to [report bugs and/or give suggestions](https://forms.gle/kSRzp9vTVqrqintr9)
+- Type **`REPORT`** to report bugs and/or give suggestions via [this](https://forms.gle/731gDE6hxcrSWuLu9) Google form
 
 ## To-Do List 📝
 
