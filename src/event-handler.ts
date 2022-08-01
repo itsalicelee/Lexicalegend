@@ -52,6 +52,10 @@ export const textEventHandler = async (event: WebhookEvent, client: Client): Pro
         suggestEventHandler(client, text, replyToken);
         return;
     }
+    if(controlPanel.mode === 'anotherWord'){
+        anotherWordEventHandler(client, text, replyToken);
+        return;
+    }
 
     if(report){
         reply = `Please report the issue in the form! 🙇‍♀️ https://forms.gle/aawPQNEYfEgwyvCi8 `
@@ -223,7 +227,36 @@ export const suggestEventHandler = async (client: Client, text: string, replyTok
     }
     await client.replyMessage(replyToken, response);
     //TODO: default return back to dictionary mode, add router quick reply
-    controlPanel.mode = 'dict';
+    let anotherReply = 'Would you like to learn another word? 🦄';
+    var response: TextMessage = {
+        type: 'text',
+        text: anotherReply,
+    }
+    response.quickReply = {
+        "items": [
+            {
+                "type": "action",
+                "imageUrl": "https://img.icons8.com/emoji/344/check-mark-button-emoji.png",
+                "action": {
+                    "type": "message",
+                    "label": "YES",
+                    "text": "YES"
+                }
+            },
+            {
+                "type": "action",
+                "imageUrl": "https://img.icons8.com/emoji/344/cross-mark-button-emoji.png",
+                "action": {
+                    "type": "message",
+                    "label": "NO",
+                    "text": "NO"
+                }
+            },
+        ]
+    }
+   
+    await client.replyMessage(replyToken, response);
+    controlPanel.mode = 'anotherWord';
     return;
 }
 
@@ -275,5 +308,29 @@ export const studyTypeEventHandler = async (client: Client, replyToken: string):
     // change mode to suggest after suggesting studyType
     controlPanel.mode = 'suggest';
     await client.replyMessage(replyToken, response);
+    return;
+}
+
+
+/** 
+ * Ask user recommend another word, if so, go back to suggest event handler; else return back to dict mode
+ * @param client
+ * @param replyToken
+ * @returns go back to suggest event handler; or return back to dict mode
+ */
+export const anotherWordEventHandler = async (client: Client, text: string, replyToken: string): Promise<MessageAPIResponseBase | undefined> => {
+    if(controlPanel.mode != 'anotherWord'){ return; }
+    console.log("Another Word Event Handler!");
+    if(text === 'YES'){
+        controlPanel.mode = 'suggest';
+        suggestEventHandler(client, text, replyToken);
+        return;
+    }
+    else if(text === 'NO'){
+        controlPanel.mode = 'dict';
+        return;
+    }
+    
+  
     return;
 }

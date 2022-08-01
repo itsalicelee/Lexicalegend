@@ -25,6 +25,6 @@ Learn vocabulary with your Line chatbot everyday!
 ## To-Do List 📝
 
 - [ ] Usage in greeting message
-- [ ] Add examples using the vocabular
+- [ ] Add examples using the vocabulary
 - [ ] Demo Video
 - [ ] Add image for vocabulary
