@@ -331,6 +331,13 @@ export const anotherWordEventHandler = async (client: Client, text: string, repl
     }
     else if(text.toUpperCase() === 'NO'){
         controlPanel.mode = 'dict';
+        let reply = "Back to dictionary mode 📖";
+        // Create a new message.
+        const response: TextMessage = {
+            type: 'text',
+            text: reply,
+        };
+        await client.replyMessage(replyToken, response);
         return;
     }
     else{  // user replys neither YES nor NO
