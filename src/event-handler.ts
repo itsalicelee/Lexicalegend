@@ -326,7 +326,7 @@ export const anotherWordEventHandler = async (client: Client, text: string, repl
     console.log("Another Word Event Handler!");
     if(text === 'YES'){
         controlPanel.mode = 'suggest';
-        suggestEventHandler(client, text, replyToken);
+        suggestEventHandler(client, replyToken);
         return;
     }
     else if(text === 'NO'){
