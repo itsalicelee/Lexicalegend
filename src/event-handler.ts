@@ -324,14 +324,44 @@ export const studyTypeEventHandler = async (client: Client, replyToken: string):
 export const anotherWordEventHandler = async (client: Client, text: string, replyToken: string): Promise<MessageAPIResponseBase | undefined> => {
     if(controlPanel.mode != 'anotherWord'){ return; }
     console.log("Another Word Event Handler!");
-    if(text === 'YES'){
+    if(text.toUpperCase() === 'YES'){
         controlPanel.mode = 'suggest';
         suggestEventHandler(client, replyToken);
         return;
     }
-    else if(text === 'NO'){
+    else if(text.toUpperCase() === 'NO'){
         controlPanel.mode = 'dict';
         return;
     }
-    return;
+    else{  // user replys neither YES nor NO
+        let anotherReply = 'Would you like to learn another word? 🦄';
+        var response2: TextMessage = {
+            type: 'text',
+            text: anotherReply,
+        }
+        response2.quickReply = {
+            "items": [
+                {
+                    "type": "action",
+                    "imageUrl": "https://img.icons8.com/emoji/344/check-mark-button-emoji.png",
+                    "action": {
+                        "type": "message",
+                        "label": "YES",
+                        "text": "YES"
+                    }
+                },
+                {
+                    "type": "action",
+                    "imageUrl": "https://img.icons8.com/emoji/344/cross-mark-button-emoji.png",
+                    "action": {
+                        "type": "message",
+                        "label": "NO",
+                        "text": "NO"
+                    }
+                },
+            ]
+        }
+        await client.replyMessage(replyToken, response2);
+        return;
+    }
 }
