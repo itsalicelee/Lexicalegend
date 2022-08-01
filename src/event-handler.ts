@@ -49,7 +49,10 @@ export const textEventHandler = async (event: WebhookEvent, client: Client): Pro
         return;
     }
     if(controlPanel.mode === 'suggest'){
-        suggestEventHandler(client, text, replyToken);
+        if(text.toUpperCase() === 'TOEFL'){controlPanel.studyType = 'TOEFL';}
+        else if(text.toUpperCase() === 'GRE'){controlPanel.studyType = 'GRE';}
+        else if(text.toUpperCase() === 'TOEIC'){controlPanel.studyType = 'TOEIC';}
+        suggestEventHandler(client, replyToken);
         return;
     }
     if(controlPanel.mode === 'anotherWord'){
@@ -196,22 +199,22 @@ export const fileEventHandler = async (event: WebhookEvent, client: Client): Pro
  * @param replyToken
  * @returns quick reply of studyType(TOEFL, GRE, TOEIC)
  */
-export const suggestEventHandler = async (client: Client, text: string, replyToken: string): Promise<MessageAPIResponseBase | undefined> => {
+export const suggestEventHandler = async (client: Client, replyToken: string): Promise<MessageAPIResponseBase | undefined> => {
     if(controlPanel.mode != 'suggest'){ return; }
     console.log("Suggest Event Handler!");
 
     var suggestedWord: string = '';
-    text = text.toUpperCase().trim();
-    if(text === 'TOEFL'){
+
+    if(controlPanel.studyType === 'TOEFL'){
         suggestedWord = utils.suggestWord('toefl');
     }
-    else if(text === 'GRE'){
+    else if(controlPanel.studyType === 'GRE'){
         suggestedWord = utils.suggestWord('gre');
     }
-    else if(text === 'TOEIC'){
+    else if(controlPanel.studyType === 'TOEIC'){
         suggestedWord = utils.suggestWord('toeic');
     }
-    else{ // user type something else instead of using quick reply 
+    if(controlPanel.studyType === 'none'){ // user type something else instead of using quick reply 
         controlPanel.mode = 'studyType';
         studyTypeEventHandler(client, replyToken);
         return;
