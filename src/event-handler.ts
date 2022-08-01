@@ -221,13 +221,42 @@ export const suggestEventHandler = async (client: Client, text: string, replyTok
     let reply: string = '';
     reply = await fetchCambridge(suggestedWord);
     reply = `✅ ${suggestedWord} \n\n` + reply;
-    var response: TextMessage = {
+    var response1: TextMessage = {
         type: 'text',
         text: reply,
     }
     
+    //TODO: default return back to dictionary mode, add router quick reply
+    let anotherReply = 'Would you like to learn another word? 🦄';
+    var response2: TextMessage = {
+        type: 'text',
+        text: anotherReply,
+    }
+    response2.quickReply = {
+        "items": [
+            {
+                "type": "action",
+                "imageUrl": "https://img.icons8.com/emoji/344/check-mark-button-emoji.png",
+                "action": {
+                    "type": "message",
+                    "label": "YES",
+                    "text": "YES"
+                }
+            },
+            {
+                "type": "action",
+                "imageUrl": "https://img.icons8.com/emoji/344/cross-mark-button-emoji.png",
+                "action": {
+                    "type": "message",
+                    "label": "NO",
+                    "text": "NO"
+                }
+            },
+        ]
+    }
+
     controlPanel.mode = 'anotherWord';
-    await client.replyMessage(replyToken, response);
+    await client.replyMessage(replyToken, [response1, response2]);
     return;
 }
 
@@ -301,38 +330,5 @@ export const anotherWordEventHandler = async (client: Client, text: string, repl
         controlPanel.mode = 'dict';
         return;
     }
-    
-    
-    //TODO: default return back to dictionary mode, add router quick reply
-    let anotherReply = 'Would you like to learn another word? 🦄';
-    var response: TextMessage = {
-        type: 'text',
-        text: anotherReply,
-    }
-    response.quickReply = {
-        "items": [
-            {
-                "type": "action",
-                "imageUrl": "https://img.icons8.com/emoji/344/check-mark-button-emoji.png",
-                "action": {
-                    "type": "message",
-                    "label": "YES",
-                    "text": "YES"
-                }
-            },
-            {
-                "type": "action",
-                "imageUrl": "https://img.icons8.com/emoji/344/cross-mark-button-emoji.png",
-                "action": {
-                    "type": "message",
-                    "label": "NO",
-                    "text": "NO"
-                }
-            },
-        ]
-    }
-    await client.replyMessage(replyToken, response);
-    
-
     return;
 }
