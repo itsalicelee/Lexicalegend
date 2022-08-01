@@ -221,18 +221,18 @@ export const suggestEventHandler = async (client: Client, text: string, replyTok
     let reply: string = '';
     reply = await fetchCambridge(suggestedWord);
     reply = `✅ ${suggestedWord} \n\n` + reply;
-    var response: TextMessage = {
+    var response1: TextMessage = {
         type: 'text',
         text: reply,
     }
-    await client.replyMessage(replyToken, response);
+    
     //TODO: default return back to dictionary mode, add router quick reply
     let anotherReply = 'Would you like to learn another word? 🦄';
-    var response: TextMessage = {
+    var response2: TextMessage = {
         type: 'text',
         text: anotherReply,
     }
-    response.quickReply = {
+    response2.quickReply = {
         "items": [
             {
                 "type": "action",
@@ -254,8 +254,8 @@ export const suggestEventHandler = async (client: Client, text: string, replyTok
             },
         ]
     }
-   
-    await client.replyMessage(replyToken, response);
+    await client.replyMessage(replyToken, response1);
+    await client.replyMessage(replyToken, response2);
     controlPanel.mode = 'anotherWord';
     return;
 }
