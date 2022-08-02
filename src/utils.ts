@@ -21,7 +21,7 @@ export const suggestWord = (type: string): string => {
     else if(type === 'gre'){
         words = vocab.gre;
     }
-    else if(type === 'toefl'){
+    else if(type === 'toeic'){
         words = vocab.toeic;
     }
     const index = Math.floor((Math.random()*words.length));
