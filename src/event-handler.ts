@@ -27,44 +27,11 @@ export const followEventHandler = async (event: WebhookEvent, client: Client): P
 }
 
 // Function handler to receive the text.
-export const textEventHandler = async (event: WebhookEvent, client: Client): Promise<MessageAPIResponseBase | undefined> => {
-    // Process all variables here.
-    if (event.type !== 'message' || event.message.type !== 'text') {
-        return;
-    }
-
-    // Process all message related variables here.
-    const { replyToken } = event;
-    const { text } = event.message;
+export const textEventHandler = async (client: Client, text: string, replyToken: string): Promise<MessageAPIResponseBase | undefined> => {
 
     let reply = '';
 
-    // Bug report 
-    const reportArr: string[] = ['REPORT', 'ISSUE', 'BUG', 'FEEDBACK', '問題', '建議', '回報', '回饋', '🐛', '🐜', '🐞'];
-    const suggestArr: string[] = ['STUDY', '學習'];
-    let report: boolean = reportArr.some(key => text.includes(key));
-    if(suggestArr.some(key => text.includes(key))){
-        controlPanel.mode = 'studyType';
-        studyTypeEventHandler(client, replyToken);
-        return;
-    }
-    if(controlPanel.mode === 'suggest'){
-        if(text.toUpperCase() === 'TOEFL'){controlPanel.studyType = 'TOEFL';}
-        else if(text.toUpperCase() === 'GRE'){controlPanel.studyType = 'GRE';}
-        else if(text.toUpperCase() === 'TOEIC'){controlPanel.studyType = 'TOEIC';}
-        suggestEventHandler(client, replyToken);
-        return;
-    }
-    if(controlPanel.mode === 'anotherWord'){
-        anotherWordEventHandler(client, text, replyToken);
-        return;
-    }
-
-    if(report){
-        reply = `Please report the issue in the form! 🙇‍♀️ https://forms.gle/aawPQNEYfEgwyvCi8 `
-    }
-    // Check if contains emoji
-    else if(emojiCheck(text) != ''){  
+    if(emojiCheck(text) != ''){  
         reply = emojiCheck(text);
     }        
     // Check if contains non-enlish character
@@ -90,6 +57,7 @@ export const textEventHandler = async (event: WebhookEvent, client: Client): Pro
 
     // Reply to the user.
     await client.replyMessage(replyToken, response);
+    return;
 };
 
 export const imageEventHandler = async (event: WebhookEvent, client: Client): Promise<MessageAPIResponseBase | undefined> => {
@@ -226,7 +194,7 @@ export const suggestEventHandler = async (client: Client, replyToken: string): P
         return;
     }
 
-    //TODO:  suggested word not found
+
     let reply: string = '';
     var def = '';
     while(def === ''){  // no this word, suggest new word again
@@ -384,4 +352,19 @@ export const anotherWordEventHandler = async (client: Client, text: string, repl
         await client.replyMessage(replyToken, response2);
         return;
     }
+}
+
+
+export const reportEventHandler = async (client: Client, replyToken: string): Promise<MessageAPIResponseBase | undefined> => {
+
+    let reply = `Please report the issue in the form! 🙇‍♀️ https://forms.gle/aawPQNEYfEgwyvCi8 `
+     // Create a new message.
+    const response: TextMessage = {
+        type: 'text',
+        text: reply,
+    };
+
+    // Reply to the user.
+    await client.replyMessage(replyToken, response);
+    return;
 }

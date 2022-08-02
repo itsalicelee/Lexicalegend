@@ -2,6 +2,7 @@
 import { ClientConfig, Client, middleware, MiddlewareConfig, WebhookEvent} from '@line/bot-sdk';
 import express, { Application, Request, Response } from 'express';
 import * as EventHandler from './src/event-handler';
+import { textRouter } from './src/router';
 
 // Setup all LINE client and Express configurations.
 const clientConfig: ClientConfig = {
@@ -66,7 +67,7 @@ app.post(
             else if(event.type === 'message'){
                 switch(event.message.type){
                     case 'text':
-                        await EventHandler.textEventHandler(event, client);
+                        await textRouter(event, client);
                     case 'image': 
                         await EventHandler.imageEventHandler(event, client);
                     case 'audio':
