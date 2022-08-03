@@ -170,16 +170,15 @@ export const fileEventHandler = async (event: WebhookEvent, client: Client): Pro
 /** 
  * Given a text, randomly selects a word from the corresponding wordlist and return its def
  * @param client
- * @param text: TOEFL | GRE | TOEIC from quick reply 
  * @param replyToken
- * @returns quick reply of studyType(TOEFL, GRE, TOEIC)
+ * @returns quick reply of studyType(TOEFL, GRE, TOEIC, IELTS)
  */
 export const suggestEventHandler = async (client: Client, replyToken: string): Promise<MessageAPIResponseBase | undefined> => {
     if(controlPanel.mode != 'suggest'){ return; }
     console.log("Suggest Event Handler!");
 
     var suggestedWord: string = '';
-
+    //TODO: support new exam here
     if(controlPanel.studyType === 'TOEFL'){
         suggestedWord = utils.suggestWord('toefl');
     }
@@ -188,6 +187,9 @@ export const suggestEventHandler = async (client: Client, replyToken: string): P
     }
     else if(controlPanel.studyType === 'TOEIC'){
         suggestedWord = utils.suggestWord('toeic');
+    }
+    else if(controlPanel.studyType === 'IELTS'){
+        suggestedWord = utils.suggestWord('ielts');
     }
     if(controlPanel.studyType === 'none'){ // user type something else instead of using quick reply 
         controlPanel.mode = 'studyType';
@@ -249,7 +251,7 @@ export const suggestEventHandler = async (client: Client, replyToken: string): P
  * Ask user studyType by quick reply and change mode to suggest
  * @param client
  * @param replyToken
- * @returns quick reply of studyType(TOEFL, GRE, TOEIC)
+ * @returns quick reply of studyType(TOEFL, GRE, TOEIC, IELTS)
  */
 export const studyTypeEventHandler = async (client: Client, replyToken: string): Promise<MessageAPIResponseBase | undefined> => {
     if(controlPanel.mode != 'studyType'){ return; }
@@ -259,6 +261,7 @@ export const studyTypeEventHandler = async (client: Client, replyToken: string):
         type: 'text',
         text: reply,
     }
+    //TODO: support new exam here
     response.quickReply = {
         "items": [
             {
@@ -286,6 +289,15 @@ export const studyTypeEventHandler = async (client: Client, replyToken: string):
                     "type": "message",
                     "label": "TOEIC",
                     "text": "TOEIC"
+                }
+            },
+            {
+                "type": "action",
+                "imageUrl": "https://img.icons8.com/color/344/4-c.png",
+                "action": {
+                    "type": "message",
+                    "label": "IELTS",
+                    "text": "IELTS"
                 }
             }
         ]

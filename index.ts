@@ -25,7 +25,7 @@ const app: Application = express();
 
 interface IControl{
     mode: 'dict' | 'suggest' | 'studyType' | 'anotherWord',
-    studyType: 'none' | 'GRE' | 'TOEFL' | 'TOEIC', 
+    studyType: 'none' | 'GRE' | 'TOEFL' | 'TOEIC' | 'IELTS', 
 };
 
 

@@ -25,9 +25,11 @@ export const textRouter = async (event: WebhookEvent, client: Client): Promise<M
         return;
     }
     if(controlPanel.mode === 'suggest'){
+        //TODO: support new exam here
         if(text.toUpperCase() === 'TOEFL'){controlPanel.studyType = 'TOEFL';}
         else if(text.toUpperCase() === 'GRE'){controlPanel.studyType = 'GRE';}
         else if(text.toUpperCase() === 'TOEIC'){controlPanel.studyType = 'TOEIC';}
+        else if(text.toUpperCase() === 'IELTS'){controlPanel.studyType = 'IELTS';}
         suggestEventHandler(client, replyToken);
         return;
     }
