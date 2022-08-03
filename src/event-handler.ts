@@ -1,3 +1,4 @@
+import { Dialogue } from './dialogue';
 import { Client, WebhookEvent, TextMessage, MessageAPIResponseBase, StickerMessage, QuickReply} from '@line/bot-sdk';
 import { emojiCheck, englishCheck} from './text-process';
 import {fetchCambridge, getSpellCheckLst} from './cambridge';
@@ -15,7 +16,7 @@ export const followEventHandler = async (event: WebhookEvent, client: Client): P
     const displayName = (await client.getProfile(userID)).displayName;
 
     
-    let reply = `Hi ${displayName}! Let's learn vocabulary! 👩‍🏫\nYou can type any word to look up its translation.`;
+    let reply = `Hi ${displayName}! Let's learn vocabulary! 👩‍🏫\n` + Dialogue.follow;
      // Create a new message.
     const response: TextMessage = {
         type: 'text',
@@ -42,7 +43,7 @@ export const textEventHandler = async (client: Client, text: string, replyToken:
     else{
         var def = await fetchCambridge(text);
         if(def === ''){  // no this word, give spell check list
-            reply = "Are you looking for: \n " + await getSpellCheckLst(text);
+            reply = Dialogue.spellCheck + await getSpellCheckLst(text);
         }
         else{
             reply = def;
@@ -58,7 +59,7 @@ export const textEventHandler = async (client: Client, text: string, replyToken:
     // Reply to the user.
     await client.replyMessage(replyToken, response);
     return;
-};
+}
 
 export const imageEventHandler = async (event: WebhookEvent, client: Client): Promise<MessageAPIResponseBase | undefined> => {
     if (event.type !== 'message' || event.message.type !== 'image') {
@@ -66,7 +67,7 @@ export const imageEventHandler = async (event: WebhookEvent, client: Client): Pr
     }
     
     const { replyToken } = event;
-    let reply = "I love this image! ❤️";
+    let reply = Dialogue.image;
     // Create a new message.
     const response: TextMessage = {
         type: 'text',
@@ -84,7 +85,7 @@ export const audioEventHandler = async (event: WebhookEvent, client: Client): Pr
     }
 
     const { replyToken } = event;
-    let reply = "Ooops...I'm better at recognizing words... 👀";
+    let reply = Dialogue.audio;
      // Create a new message.
     const response: TextMessage = {
         type: 'text',
@@ -101,7 +102,7 @@ export const videoEventHandler = async (event: WebhookEvent, client: Client): Pr
     }
 
     const { replyToken } = event;
-    let reply = "Thanks for sharing! 😎";
+    let reply = Dialogue.video;
      // Create a new message.
     const response: TextMessage = {
         type: 'text',
@@ -118,7 +119,7 @@ export const locationEventHandler = async (event: WebhookEvent, client: Client):
     }
 
     const { replyToken } = event;
-    let reply = "It is good people who make good places. ✨";
+    let reply = Dialogue.location;
      // Create a new message.
     const response: TextMessage = {
         type: 'text',
@@ -155,7 +156,7 @@ export const fileEventHandler = async (event: WebhookEvent, client: Client): Pro
     }
 
     const { replyToken } = event;
-    let reply = "Stop telling people more than they need to know! 👻";
+    let reply = Dialogue.file;
      // Create a new message.
     const response: TextMessage = {
         type: 'text',
@@ -210,8 +211,8 @@ export const suggestEventHandler = async (client: Client, replyToken: string): P
         text: reply,
     }
     
-    //TODO: default return back to dictionary mode, add router quick reply
-    let anotherReply = 'Would you like to learn another word? 🦄';
+
+    let anotherReply = Dialogue.anotherWord;
     var response2: TextMessage = {
         type: 'text',
         text: anotherReply,
@@ -253,7 +254,7 @@ export const suggestEventHandler = async (client: Client, replyToken: string): P
 export const studyTypeEventHandler = async (client: Client, replyToken: string): Promise<MessageAPIResponseBase | undefined> => {
     if(controlPanel.mode != 'studyType'){ return; }
     console.log("Study Type Event Handler!");
-    let reply = 'What kind of exam would you like to study?';
+    let reply = Dialogue.studyType;
     var response: TextMessage = {
         type: 'text',
         text: reply,
@@ -312,7 +313,7 @@ export const anotherWordEventHandler = async (client: Client, text: string, repl
     }
     else if(text.toUpperCase() === 'NO'){
         controlPanel.mode = 'dict';
-        let reply = "Back to dictionary mode 📖";
+        let reply = Dialogue.dictMode;
         // Create a new message.
         const response: TextMessage = {
             type: 'text',
@@ -322,7 +323,7 @@ export const anotherWordEventHandler = async (client: Client, text: string, repl
         return;
     }
     else{  // user replys neither YES nor NO
-        let anotherReply = 'Would you like to learn another word? 🦄';
+        let anotherReply = Dialogue.anotherWord;
         var response2: TextMessage = {
             type: 'text',
             text: anotherReply,
@@ -357,7 +358,7 @@ export const anotherWordEventHandler = async (client: Client, text: string, repl
 
 export const reportEventHandler = async (client: Client, replyToken: string): Promise<MessageAPIResponseBase | undefined> => {
 
-    let reply = `Please report the issue in the form! 🙇‍♀️ https://forms.gle/aawPQNEYfEgwyvCi8 `
+    let reply = Dialogue.report;
      // Create a new message.
     const response: TextMessage = {
         type: 'text',
