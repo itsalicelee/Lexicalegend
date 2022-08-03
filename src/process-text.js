@@ -24,7 +24,7 @@ for(let i = 0; i < ieltsArr.length; i+=2){
     ielts.push(ieltsArr[i]);
 }
 
-const vocab = {toefl:toefl, gre:gre, toeic:toeic, ielts:ielts};
+const vocab = {TOEFL:toefl, GRE:gre, TOEIC:toeic, IELTS:ielts};
 
 fs.writeFile("../lib/vocab.json", JSON.stringify(vocab), 'utf8', function (err) {
     if (err) {

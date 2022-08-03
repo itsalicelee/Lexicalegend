@@ -4,6 +4,7 @@ import { emojiCheck, englishCheck} from './text-process';
 import {fetchCambridge, getSpellCheckLst} from './cambridge';
 import { controlPanel } from '..';
 import * as utils from './utils';
+import { MyQuickReply } from './quickReply';
 
 export const followEventHandler = async (event: WebhookEvent, client: Client): Promise<MessageAPIResponseBase | undefined> => {
     if (event.type !== 'follow') {
@@ -178,32 +179,16 @@ export const suggestEventHandler = async (client: Client, replyToken: string): P
     console.log("Suggest Event Handler!");
 
     var suggestedWord: string = '';
-    //TODO: support new exam here
-    if(controlPanel.studyType === 'TOEFL'){
-        suggestedWord = utils.suggestWord('toefl');
-    }
-    else if(controlPanel.studyType === 'GRE'){
-        suggestedWord = utils.suggestWord('gre');
-    }
-    else if(controlPanel.studyType === 'TOEIC'){
-        suggestedWord = utils.suggestWord('toeic');
-    }
-    else if(controlPanel.studyType === 'IELTS'){
-        suggestedWord = utils.suggestWord('ielts');
-    }
-
-
 
     let reply: string = '';
     var def = '';
     while(def === ''){  // no this word, suggest new word again
-        suggestedWord = utils.suggestWord(controlPanel.studyType.toLowerCase());
+        suggestedWord = utils.suggestWord(controlPanel.studyType.toUpperCase());
         def = await fetchCambridge(suggestedWord);
     }
     
-    reply = def;
     
-    reply = `✅ ${suggestedWord} \n\n` + reply;
+    reply = `✅ ${suggestedWord} \n\n` + def;
     var response1: TextMessage = {
         type: 'text',
         text: reply,
@@ -215,28 +200,7 @@ export const suggestEventHandler = async (client: Client, replyToken: string): P
         type: 'text',
         text: anotherReply,
     }
-    response2.quickReply = {
-        "items": [
-            {
-                "type": "action",
-                "imageUrl": "https://img.icons8.com/emoji/344/check-mark-button-emoji.png",
-                "action": {
-                    "type": "message",
-                    "label": "YES",
-                    "text": "YES"
-                }
-            },
-            {
-                "type": "action",
-                "imageUrl": "https://img.icons8.com/emoji/344/cross-mark-button-emoji.png",
-                "action": {
-                    "type": "message",
-                    "label": "NO",
-                    "text": "NO"
-                }
-            },
-        ]
-    }
+    response2.quickReply = MyQuickReply.yes_no;
 
     controlPanel.mode = 'anotherWord';
     await client.replyMessage(replyToken, [response1, response2]);
@@ -257,47 +221,8 @@ export const studyTypeEventHandler = async (client: Client, replyToken: string):
         type: 'text',
         text: reply,
     }
-    //TODO: support new exam here
-    response.quickReply = {
-        "items": [
-            {
-                "type": "action",
-                "imageUrl": "https://img.icons8.com/color/344/1-c.png",
-                "action": {
-                    "type": "message",
-                    "label": "TOEFL",
-                    "text": "TOEFL"
-                }
-            },
-            {
-                "type": "action",
-                "imageUrl": "https://img.icons8.com/color/344/2-c.png",
-                "action": {
-                    "type": "message",
-                    "label": "GRE",
-                    "text": "GRE"
-                }
-            },
-            {
-                "type": "action",
-                "imageUrl": "https://img.icons8.com/color/344/3-c.png",
-                "action": {
-                    "type": "message",
-                    "label": "TOEIC",
-                    "text": "TOEIC"
-                }
-            },
-            {
-                "type": "action",
-                "imageUrl": "https://img.icons8.com/color/344/4-c.png",
-                "action": {
-                    "type": "message",
-                    "label": "IELTS",
-                    "text": "IELTS"
-                }
-            }
-        ]
-    }
+    
+    response.quickReply = MyQuickReply.exams;
     // change mode to suggest after suggesting studyType
     controlPanel.mode = 'suggest';
     await client.replyMessage(replyToken, response);
@@ -336,28 +261,7 @@ export const anotherWordEventHandler = async (client: Client, text: string, repl
             type: 'text',
             text: anotherReply,
         }
-        response2.quickReply = {
-            "items": [
-                {
-                    "type": "action",
-                    "imageUrl": "https://img.icons8.com/emoji/344/check-mark-button-emoji.png",
-                    "action": {
-                        "type": "message",
-                        "label": "YES",
-                        "text": "YES"
-                    }
-                },
-                {
-                    "type": "action",
-                    "imageUrl": "https://img.icons8.com/emoji/344/cross-mark-button-emoji.png",
-                    "action": {
-                        "type": "message",
-                        "label": "NO",
-                        "text": "NO"
-                    }
-                },
-            ]
-        }
+        response2.quickReply = MyQuickReply.yes_no;
         await client.replyMessage(replyToken, response2);
         return;
     }
