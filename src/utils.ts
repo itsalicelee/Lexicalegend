@@ -13,7 +13,7 @@ export function randomInteger(min: number, max: number): number {
  */
 export const suggestWord = (type: string): string => {
     //TODO: support new exam here
-    assert(type === 'TOEFL' || type === 'GRE' || type === 'TOEIC' || type === 'IELTS');
+    assert(type === 'TOEFL' || type === 'GRE' || type === 'TOEIC' || type === 'IELTS' || type === 'JUNIOR' || type === 'SENIOR');
     var words: string[] = [];
     
     if(type === 'TOEFL'){
@@ -27,6 +27,12 @@ export const suggestWord = (type: string): string => {
     }
     else if(type === 'IELTS'){
         words = vocab.IELTS;
+    }
+    else if(type === 'JUNIOR'){
+        words = vocab.JUNIOR;
+    }
+    else if(type === 'SENIOR'){
+        words = vocab.SENIOR;
     }
     const index = Math.floor((Math.random()*words.length));
     const result = words[index];    

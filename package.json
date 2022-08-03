@@ -5,7 +5,7 @@
   "main": "./dist/index.js",
   "scripts": {
     "clean": "rimraf ./dist",
-    "build": "npm run clean && tsc",
+    "build": "node src/process-text.js && npm run clean && tsc",
     "start": "node dist/index.js",
     "dev": "nodemon --watch 'src/**/*.ts' --exec 'ts-node' index.ts",
     "scrap": "nodemon --watch 'src/**/*.ts' --exec 'ts-node' src/cambridge.ts"

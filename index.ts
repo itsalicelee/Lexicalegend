@@ -23,9 +23,10 @@ const client = new Client(clientConfig);
 // Create a new Express application.
 const app: Application = express();
 
+ //TODO: support new exam here
 interface IControl{
     mode: 'dict' | 'suggest' | 'studyType' | 'anotherWord',
-    studyType: 'none' | 'GRE' | 'TOEFL' | 'TOEIC' | 'IELTS', 
+    studyType: 'none' | 'GRE' | 'TOEFL' | 'TOEIC' | 'IELTS' | 'JUNIOR' | 'SENIOR', 
 };
 
 

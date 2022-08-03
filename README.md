@@ -20,11 +20,19 @@ Learn vocabulary with your Line chatbot everyday!
   - TOEFL: 王玉梅托福詞彙
   - GRE: Mason 2000
   - TOEIC
+  - IELTS
+  - Vocabulary 7000 for senior high
+  - Vocabulary 2000 for junior high
 - Type **`REPORT`** to report bugs and/or give suggestions via [this](https://forms.gle/731gDE6hxcrSWuLu9) Google form
 
 ## To-Do List 📝
 
-- [ ] Usage in greeting message
+- [X] Usage in greeting message
 - [ ] Add examples using the vocabulary
 - [ ] Demo Video
 - [ ] Add image for vocabulary
+- [ ] LINE profile image and background
+
+## Contributor 💛
+
+- Thanks to [@h93h3.3](https://www.instagram.com/h93h3.3/) for the character design!

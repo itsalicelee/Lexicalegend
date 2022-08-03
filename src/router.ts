@@ -30,6 +30,8 @@ export const textRouter = async (event: WebhookEvent, client: Client): Promise<M
         else if(text.toUpperCase() === 'GRE'){controlPanel.studyType = 'GRE';}
         else if(text.toUpperCase() === 'TOEIC'){controlPanel.studyType = 'TOEIC';}
         else if(text.toUpperCase() === 'IELTS'){controlPanel.studyType = 'IELTS';}
+        else if(text.toUpperCase() === 'JUNIOR'){controlPanel.studyType = 'JUNIOR';}
+        else if(text.toUpperCase() === 'SENIOR'){controlPanel.studyType = 'SENIOR';}
         else{  // user type something other than studyType
             controlPanel.mode = 'studyType';
             studyTypeEventHandler(client, replyToken);

@@ -31,7 +31,7 @@ export const MyQuickReply: IQuickReply = {
         "items": [
             {
                 "type": "action",
-                "imageUrl": "https://img.icons8.com/color/344/1-c.png",
+                "imageUrl": "https://img.icons8.com/dusk/344/circled-dot.png",
                 "action": {
                     "type": "message",
                     "label": "TOEFL",
@@ -40,7 +40,7 @@ export const MyQuickReply: IQuickReply = {
             },
             {
                 "type": "action",
-                "imageUrl": "https://img.icons8.com/color/344/2-c.png",
+                "imageUrl": "https://img.icons8.com/dusk/344/circled-dot.png",
                 "action": {
                     "type": "message",
                     "label": "GRE",
@@ -49,7 +49,7 @@ export const MyQuickReply: IQuickReply = {
             },
             {
                 "type": "action",
-                "imageUrl": "https://img.icons8.com/color/344/3-c.png",
+                "imageUrl": "https://img.icons8.com/dusk/344/circled-dot.png",
                 "action": {
                     "type": "message",
                     "label": "TOEIC",
@@ -58,12 +58,30 @@ export const MyQuickReply: IQuickReply = {
             },
             {
                 "type": "action",
-                "imageUrl": "https://img.icons8.com/color/344/4-c.png",
+                "imageUrl": "https://img.icons8.com/dusk/344/circled-dot.png",
                 "action": {
                     "type": "message",
                     "label": "IELTS",
                     "text": "IELTS"
                 }
+            },
+            {
+                "type": "action",
+                "imageUrl": "https://img.icons8.com/dusk/344/circled-dot.png",
+                "action": {
+                    "type": "message",
+                    "label": "vocab 2000",
+                    "text": "vocab 2000"
+                }
+            },
+            {
+                "type": "action",
+                "imageUrl": "https://img.icons8.com/dusk/344/circled-dot.png",
+                "action": {
+                    "type": "message",
+                    "label": "vocab 7000",
+                    "text": "vocab 7000"
+            }
             }
         ]
     }
