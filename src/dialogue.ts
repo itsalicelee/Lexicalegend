@@ -16,7 +16,7 @@ interface IDialogue{
 
 
 export const Dialogue: IDialogue = {
-    follow: "✏️Type any word to search for its translation.\n✏️Type \"STUDY\" to learn from an exam (TOEFL/GRE/TOEIC/IELTS).\n✏️Type \"REPORT\" to report bug and/or give suggestions.\n✏️",
+    follow: "\n\n✏️Type any word to search for its translation\n\n✏️Type STUDY to learn from an exam (TOEFL/GRE/TOEIC/IELTS).\n\n✏️Type REPORT to report bug and/or give suggestions.",
     spellCheck: "Are you looking for: \n ", // + spellCheck list ,
     englishCheck: "Well...Ask me again in English 👩‍💻",
     emojiCheck: "If you want to look up a word, ask me without emojis! 🌝",
