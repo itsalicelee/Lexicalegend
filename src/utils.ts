@@ -12,7 +12,7 @@ export function randomInteger(min: number, max: number): number {
  * @returns any word from the corresponding studyType wordbank
  */
 export const suggestWord = (type: string): string => {
-    assert(type === 'toefl' || type === 'gre' || type === 'toeic');
+    assert(type === 'toefl' || type === 'gre' || type === 'toeic' || type === 'ielts');
     var words: string[] = [];
     
     if(type === 'toefl'){
@@ -23,6 +23,9 @@ export const suggestWord = (type: string): string => {
     }
     else if(type === 'toeic'){
         words = vocab.toeic;
+    }
+    else if(type === 'ielts'){
+        words = vocab.ielts;
     }
     const index = Math.floor((Math.random()*words.length));
     const result = words[index];    
