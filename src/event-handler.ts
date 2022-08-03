@@ -6,6 +6,47 @@ import { controlPanel } from '..';
 import * as utils from './utils';
 import { MyQuickReply } from './quickReply';
 
+/** 
+ * Deal with image/audio/video/location/file text messages
+ * @param event
+ * @param client
+ * @returns corresponding message type dialogue
+ */
+export const BaseEventHandler = async (event: WebhookEvent, client: Client): Promise<MessageAPIResponseBase | undefined> => {
+    if (event.type !== 'message') {
+        return;
+    }
+    let reply = '';
+    if(event.message.type === 'image'){
+        reply = Dialogue.image;
+    }
+    else if(event.message.type === 'audio'){
+        reply = Dialogue.audio;
+    }
+    else if(event.message.type === 'video'){
+        reply = Dialogue.video;
+    }
+    else if(event.message.type === 'location'){
+        reply = Dialogue.location;
+    }
+    else if(event.message.type === 'file'){
+        reply = Dialogue.file;
+    }
+    
+    const { replyToken } = event;
+    
+    // Create a new message.
+    const response: TextMessage = {
+        type: 'text',
+        text: reply,
+    };
+
+    // Reply to the user.
+    await client.replyMessage(replyToken, response);
+    return;
+}
+
+
 export const followEventHandler = async (event: WebhookEvent, client: Client): Promise<MessageAPIResponseBase | undefined> => {
     if (event.type !== 'follow') {
         return;
@@ -62,74 +103,6 @@ export const textEventHandler = async (client: Client, text: string, replyToken:
     return;
 }
 
-export const imageEventHandler = async (event: WebhookEvent, client: Client): Promise<MessageAPIResponseBase | undefined> => {
-    if (event.type !== 'message' || event.message.type !== 'image') {
-        return;
-    }
-    
-    const { replyToken } = event;
-    let reply = Dialogue.image;
-    // Create a new message.
-    const response: TextMessage = {
-        type: 'text',
-        text: reply,
-    };
-
-    // Reply to the user.
-    await client.replyMessage(replyToken, response);
-    return;
-}
-
-export const audioEventHandler = async (event: WebhookEvent, client: Client): Promise<MessageAPIResponseBase | undefined> => {
-    if (event.type !== 'message' || event.message.type !== 'audio') {
-        return;
-    }
-
-    const { replyToken } = event;
-    let reply = Dialogue.audio;
-     // Create a new message.
-    const response: TextMessage = {
-        type: 'text',
-        text: reply,
-    };
-
-    // Reply to the user.
-    await client.replyMessage(replyToken, response);
-}
-
-export const videoEventHandler = async (event: WebhookEvent, client: Client): Promise<MessageAPIResponseBase | undefined> => {
-    if (event.type !== 'message' || event.message.type !== 'video') {
-        return;
-    }
-
-    const { replyToken } = event;
-    let reply = Dialogue.video;
-     // Create a new message.
-    const response: TextMessage = {
-        type: 'text',
-        text: reply,
-    };
-
-    // Reply to the user.
-    await client.replyMessage(replyToken, response);
-}
-
-export const locationEventHandler = async (event: WebhookEvent, client: Client): Promise<MessageAPIResponseBase | undefined> => {
-    if (event.type !== 'message' || event.message.type !== 'location') {
-        return;
-    }
-
-    const { replyToken } = event;
-    let reply = Dialogue.location;
-     // Create a new message.
-    const response: TextMessage = {
-        type: 'text',
-        text: reply,
-    };
-
-    // Reply to the user.
-    await client.replyMessage(replyToken, response);
-}
 
 export const stickerEventHandler = async (event: WebhookEvent, client: Client): Promise<MessageAPIResponseBase | undefined> => {
     if (event.type !== 'message' || event.message.type !== 'sticker') {
@@ -151,22 +124,6 @@ export const stickerEventHandler = async (event: WebhookEvent, client: Client): 
     await client.replyMessage(replyToken, response);
 }
 
-export const fileEventHandler = async (event: WebhookEvent, client: Client): Promise<MessageAPIResponseBase | undefined> => {
-    if (event.type !== 'message' || event.message.type !== 'file') {
-        return;
-    }
-
-    const { replyToken } = event;
-    let reply = Dialogue.file;
-     // Create a new message.
-    const response: TextMessage = {
-        type: 'text',
-        text: reply,
-    };
-
-    // Reply to the user.
-    await client.replyMessage(replyToken, response);
-}
 
 /** 
  * Given a text, randomly selects a word from the corresponding wordlist and return its def

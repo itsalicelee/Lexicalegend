@@ -69,17 +69,17 @@ app.post(
                     case 'text':
                         await textRouter(event, client);
                     case 'image': 
-                        await EventHandler.imageEventHandler(event, client);
+                        await EventHandler.BaseEventHandler(event, client);
                     case 'audio':
-                        await EventHandler.audioEventHandler(event, client);
+                        await EventHandler.BaseEventHandler(event, client);
                     case 'video':
-                        await EventHandler.videoEventHandler(event, client);
+                        await EventHandler.BaseEventHandler(event, client);
                     case 'location':
-                        await EventHandler.locationEventHandler(event, client);
+                        await EventHandler.BaseEventHandler(event, client);
+                    case 'file':
+                        await EventHandler.BaseEventHandler(event, client);
                     case 'sticker':
                         await EventHandler.stickerEventHandler(event, client);
-                    case 'file':
-                        await EventHandler.fileEventHandler(event, client);
                 }
             }
         } catch (err: unknown) {
