@@ -8,10 +8,11 @@ export function randomInteger(min: number, max: number): number {
 
 /**
  * Given a studyType, returns any word from that wordbank
- * @param type: lowercase studyType, choose from toefl | gre | toeic
+ * @param type: lowercase studyType, choose from TOEFL | GRE | TOEIC | IELTS
  * @returns any word from the corresponding studyType wordbank
  */
 export const suggestWord = (type: string): string => {
+    //TODO: support new exam here
     assert(type === 'TOEFL' || type === 'GRE' || type === 'TOEIC' || type === 'IELTS');
     var words: string[] = [];
     

@@ -1,6 +1,8 @@
 interface IDialogue{
     follow: string,
     spellCheck: string,
+    englishCheck: string,
+    emojiCheck: string,
     image: string,
     audio: string,
     video: string,
@@ -16,6 +18,8 @@ interface IDialogue{
 export const Dialogue: IDialogue = {
     follow: "You can type any word to look up its translation.",
     spellCheck: "Are you looking for: \n ", // + spellCheck list ,
+    englishCheck: "Well...Ask me again in English 👩‍💻",
+    emojiCheck: "If you want to look up a word, ask me without emojis!",
     image: "I love this image! ❤️",
     audio: "Ooops...I'm better at recognizing words... 👀",
     video: "Thanks for sharing! 😎",

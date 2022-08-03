@@ -1,6 +1,6 @@
 import { Dialogue } from './dialogue';
 import { Client, WebhookEvent, TextMessage, MessageAPIResponseBase, StickerMessage, QuickReply} from '@line/bot-sdk';
-import { emojiCheck, englishCheck} from './text-process';
+import { emojiCheck, englishCheck} from './text-check';
 import {fetchCambridge, getSpellCheckLst} from './cambridge';
 import { controlPanel } from '..';
 import * as utils from './utils';
