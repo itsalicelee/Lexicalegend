@@ -1,7 +1,7 @@
 {
   "name": "lexicalegend",
   "version": "1.0.0",
-  "description": "An example LINE bot with TypeScript made to echo messages",
+  "description": "A Linebot for searching and recommending vocabularies",
   "main": "./dist/index.js",
   "scripts": {
     "clean": "rimraf ./dist",
