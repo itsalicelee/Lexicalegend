@@ -191,7 +191,7 @@ export const suggestEventHandler = async (client: Client, replyToken: string): P
     else if(controlPanel.studyType === 'IELTS'){
         suggestedWord = utils.suggestWord('ielts');
     }
-    if(controlPanel.studyType === 'none'){ // user type something else instead of using quick reply 
+    else{ // user type something else instead of using quick reply 
         controlPanel.mode = 'studyType';
         studyTypeEventHandler(client, replyToken);
         return;
