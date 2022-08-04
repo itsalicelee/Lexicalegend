@@ -75,15 +75,18 @@ app.post(
       events.map(async (event: WebhookEvent) => {
         try {
             const user: User = await EventHandler.getUserProfile(event, client);
+            const userIdx = users.findIndex(user => {
+                return user.id === user.id;
+            });
+
             console.log(user.displayName);
             if(event.type === 'follow'){
                 await EventHandler.followEventHandler(event, client, user);
             }
             else if(event.type === 'unfollow'){
-                users = users.filter(function(ele) {
-                    return ele.id != user.id;
-                });
-
+                if(userIdx !== -1){
+                    users.splice(userIdx, 1);
+                }
             }
             else if(event.type === 'message'){
                 switch(event.message.type){
