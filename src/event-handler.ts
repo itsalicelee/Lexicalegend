@@ -38,16 +38,16 @@ export const followEventHandler = async (event: WebhookEvent, client: Client): P
 }
 
 // Function handler to receive the text.
-export const textEventHandler = async (client: Client, text: string, replyToken: string): Promise<MessageAPIResponseBase | undefined> => {
+export const textEventHandler = async (event: WebhookEvent, client: Client, text: string, replyToken: string): Promise<MessageAPIResponseBase | undefined> => {
 
     let reply = '';
 
-    if(emojiCheck(text) != ''){  
-        reply = emojiCheck(text);
+    if(emojiCheck(event, client, text) != ''){  
+        reply = emojiCheck(event, client, text);
     }        
     // Check if contains non-enlish character
-    else if(englishCheck(text) != ''){
-        reply = englishCheck(text);
+    else if(englishCheck(event, client, text) != ''){
+        reply = englishCheck(event, client, text);
     }
     // Look up translation
     else{

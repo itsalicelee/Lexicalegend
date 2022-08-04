@@ -21,7 +21,7 @@ export const textRouter = async (event: WebhookEvent, client: Client): Promise<M
     // Router 
     if(suggestArr.some(key => text.includes(key))){
         controlPanel.mode = 'studyType';
-        studyTypeEventHandler(client, replyToken);
+        studyTypeEventHandler(event, client, replyToken);
         return;
     }
     if(controlPanel.mode === 'suggest'){
@@ -34,22 +34,22 @@ export const textRouter = async (event: WebhookEvent, client: Client): Promise<M
         else if(text.toUpperCase() === 'VOCAB 7000'){controlPanel.studyType = 'SENIOR';}
         else{  // user type something other than studyType
             controlPanel.mode = 'studyType';
-            studyTypeEventHandler(client, replyToken);
+            studyTypeEventHandler(event, client, replyToken);
             return;
         }
-        suggestEventHandler(client, replyToken);
+        suggestEventHandler(event, client, replyToken);
         return;
     }
     if(controlPanel.mode === 'anotherWord'){
-        anotherWordEventHandler(client, text, replyToken);
+        anotherWordEventHandler(event, client, text, replyToken);
         return;
     }
 
 
     if(report){
-        reportEventHandler(client, replyToken);
+        reportEventHandler(event, client, replyToken);
     }
     else{
-        textEventHandler(client, text, replyToken);
+        textEventHandler(event, client, text, replyToken);
     }
 }
