@@ -1,5 +1,3 @@
-import { controlPanel } from '..';
-
 type DialogueLang = {
     en: string,
     zh: string,
@@ -7,7 +5,6 @@ type DialogueLang = {
 
 
 interface IDialogue{
-    lang: string;
     follow: DialogueLang,
     spellCheck: DialogueLang,
     englishCheck: DialogueLang,
@@ -26,7 +23,6 @@ interface IDialogue{
 
 //TODO: 中文dialogue
 export const Dialogue: IDialogue = {
-    lang: "zh",
     follow: {
         en: "Let's learn vocabulary! 👩‍🏫\n\n\n✏️Type any word to search for its translation\n\n✏️Type STUDY to learn from an exam (TOEFL/GRE/TOEIC/IELTS/vocab 2000/vocab 7000).\n\n✏️Type REPORT to report bug and/or give suggestions",
         zh: "來學單字吧！👩‍🏫\n\n\n✏️輸入任何單字來查找中文翻譯\n\n✏️輸入 STUDY 來學習考試(托福/GRE/多益/雅思/2000單/7000單)中的單字\n\n✏️輸入 REPORT 以回報問題或是給予回饋",
@@ -86,4 +82,4 @@ export const Dialogue: IDialogue = {
 };
 
 
-console.log(Dialogue.follow[controlPanel.lang]);
+// console.log(Dialogue.follow[controlPanel.lang]);
