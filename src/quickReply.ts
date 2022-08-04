@@ -81,7 +81,7 @@ export const MyQuickReply: IQuickReply = {
                     "type": "message",
                     "label": "vocab 7000",
                     "text": "vocab 7000"
-            }
+                }
             }
         ]
     }

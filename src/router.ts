@@ -1,4 +1,4 @@
-import { Client, WebhookEvent, TextMessage, MessageAPIResponseBase, StickerMessage, QuickReply} from '@line/bot-sdk';
+import { Client, WebhookEvent, MessageAPIResponseBase} from '@line/bot-sdk';
 import { controlPanel } from '..';
 import { suggestEventHandler, studyTypeEventHandler, anotherWordEventHandler, reportEventHandler, textEventHandler } from './event-handler';
 

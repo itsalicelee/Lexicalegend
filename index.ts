@@ -26,7 +26,7 @@ const app: Application = express();
  //TODO: support new exam here
 interface IControl{
     mode: 'dict' | 'suggest' | 'studyType' | 'anotherWord',
-    studyType: 'none' | 'GRE' | 'TOEFL' | 'TOEIC' | 'IELTS' | 'JUNIOR' | 'SENIOR', 
+    studyType?: 'GRE' | 'TOEFL' | 'TOEIC' | 'IELTS' | 'JUNIOR' | 'SENIOR', 
     lang: 'en' | 'zh',  //TODO: sett user language here, if zh set zh; else en
     displayName: string,
 };
@@ -34,7 +34,7 @@ interface IControl{
 
 export var controlPanel: IControl = {
     mode: 'dict',
-    studyType: 'none',
+    studyType: undefined,
     lang: 'zh',
     displayName: '',
 };

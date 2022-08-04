@@ -22,11 +22,7 @@ export async function fetchCambridge(text: string): Promise<string>{
         if(def.length > 3000){
             def = def.substring(0,2000);
         }
-
-        // check spelling 
-       
-        console.log(def);
-        
+        console.log(def);       
         return def;
     }
     catch(e){

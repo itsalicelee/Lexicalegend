@@ -41,4 +41,4 @@ fs.writeFile("./lib/vocab.json", JSON.stringify(vocab), 'utf8', function (err) {
         return console.log(err);
     }
     console.log("The file is saved!");
-}); 
+});
