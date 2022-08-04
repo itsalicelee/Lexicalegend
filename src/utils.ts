@@ -1,4 +1,4 @@
-import { controlPanel } from '..';
+import { User } from '..';
 import vocab from "../lib/vocab.json";
 
 /* Returns random int from min to max, included */
@@ -10,9 +10,9 @@ export function randomInteger(min: number, max: number): number {
  * Given a studyType, returns any word from that wordbank
  * @returns any word from the corresponding studyType wordbank
  */
-export const suggestWord = (): string => {
+export const suggestWord = (user: User): string => {
     var words: string[] = [];
-    const studyType = controlPanel.studyType!;
+    const studyType = user.studyType!;
     words = vocab[studyType];
 
     const index = Math.floor((Math.random()*words.length));

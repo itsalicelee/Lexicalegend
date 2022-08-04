@@ -24,20 +24,27 @@ const client = new Client(clientConfig);
 const app: Application = express();
 
  //TODO: support new exam here
-interface IControl{
-    mode: 'dict' | 'suggest' | 'studyType' | 'anotherWord',
-    studyType?: 'GRE' | 'TOEFL' | 'TOEIC' | 'IELTS' | 'JUNIOR' | 'SENIOR', 
-    lang: 'en' | 'zh',  //TODO: sett user language here, if zh set zh; else en
-    displayName: string,
+export type Mode = 'dict' | 'suggest' | 'studyType' | 'anotherWord';
+export type StudyType = 'GRE' | 'TOEFL' | 'TOEIC' | 'IELTS' | 'JUNIOR' | 'SENIOR' | undefined;
+export type Lang =  'en' | 'zh';  //TODO: sett user language here, if zh set zh; else en
+
+export class User{
+    constructor(id: string, displayName: string, lang: Lang, mode: Mode, studyType: StudyType){
+      this.id = id;
+      this.displayName = displayName;
+      this.lang = lang;
+      this.mode = mode;
+      this.studyType = studyType;
+    };
+    id: string;
+    displayName: string;
+    lang: Lang;
+    mode: Mode;
+    studyType: StudyType;
 };
 
-
-export var controlPanel: IControl = {
-    mode: 'dict',
-    studyType: undefined,
-    lang: 'zh',
-    displayName: '',
-};
+type Users = Array<User>;
+export var users: Users = [];
 
 // Register the LINE middleware.
 // As an alternative, you could also pass the middleware in the route handler, which is what is used here.
@@ -67,26 +74,33 @@ app.post(
     const results = await Promise.all(
       events.map(async (event: WebhookEvent) => {
         try {
-            EventHandler.getUserProfile(event, client);
+            const user: User = await EventHandler.getUserProfile(event, client);
+            console.log(user.displayName);
             if(event.type === 'follow'){
-                await EventHandler.followEventHandler(event, client);
+                await EventHandler.followEventHandler(event, client, user);
+            }
+            else if(event.type === 'unfollow'){
+                users = users.filter(function(ele) {
+                    return ele.id != user.id;
+                });
+
             }
             else if(event.type === 'message'){
                 switch(event.message.type){
                     case 'text':
-                        await textRouter(event, client);
+                        await textRouter(event, client, user);
                     case 'image': 
-                        await EventHandler.imageEventHandler(event, client);
+                        await EventHandler.imageEventHandler(event, client, user);
                     case 'audio':
-                        await EventHandler.audioEventHandler(event, client);
+                        await EventHandler.audioEventHandler(event, client, user);
                     case 'video':
-                        await EventHandler.videoEventHandler(event, client);
+                        await EventHandler.videoEventHandler(event, client, user);
                     case 'location':
-                        await EventHandler.locationEventHandler(event, client);
+                        await EventHandler.locationEventHandler(event, client, user);
                     case 'sticker':
-                        await EventHandler.stickerEventHandler(event, client);
+                        await EventHandler.stickerEventHandler(event, client, user);
                     case 'file':
-                        await EventHandler.fileEventHandler(event, client);
+                        await EventHandler.fileEventHandler(event, client, user);
                 }
             }
         } catch (err: unknown) {

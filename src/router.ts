@@ -1,8 +1,8 @@
 import { Client, WebhookEvent, MessageAPIResponseBase} from '@line/bot-sdk';
-import { controlPanel } from '..';
 import { suggestEventHandler, studyTypeEventHandler, anotherWordEventHandler, reportEventHandler, textEventHandler } from './event-handler';
+import { User } from '..';
 
-export const textRouter = async (event: WebhookEvent, client: Client): Promise<MessageAPIResponseBase | undefined> => {
+export const textRouter = async (event: WebhookEvent, client: Client, user: User): Promise<MessageAPIResponseBase | undefined> => {
     // Process all variables here.
     if (event.type !== 'message' || event.message.type !== 'text') {
         return;
@@ -20,36 +20,36 @@ export const textRouter = async (event: WebhookEvent, client: Client): Promise<M
     
     // Router 
     if(suggestArr.some(key => text.includes(key))){
-        controlPanel.mode = 'studyType';
-        studyTypeEventHandler(event, client, replyToken);
+        user.mode = 'studyType';
+        studyTypeEventHandler(event, client, replyToken, user);
         return;
     }
-    if(controlPanel.mode === 'suggest'){
+    if(user.mode === 'suggest'){
         //TODO: support new exam here
-        if(text.toUpperCase() === 'TOEFL'){controlPanel.studyType = 'TOEFL';}
-        else if(text.toUpperCase() === 'GRE'){controlPanel.studyType = 'GRE';}
-        else if(text.toUpperCase() === 'TOEIC'){controlPanel.studyType = 'TOEIC';}
-        else if(text.toUpperCase() === 'IELTS'){controlPanel.studyType = 'IELTS';}
-        else if(text.toUpperCase() === 'VOCAB 2000'){controlPanel.studyType = 'JUNIOR';}
-        else if(text.toUpperCase() === 'VOCAB 7000'){controlPanel.studyType = 'SENIOR';}
+        if(text.toUpperCase() === 'TOEFL'){user.studyType = 'TOEFL';}
+        else if(text.toUpperCase() === 'GRE'){user.studyType = 'GRE';}
+        else if(text.toUpperCase() === 'TOEIC'){user.studyType = 'TOEIC';}
+        else if(text.toUpperCase() === 'IELTS'){user.studyType = 'IELTS';}
+        else if(text.toUpperCase() === 'VOCAB 2000'){user.studyType = 'JUNIOR';}
+        else if(text.toUpperCase() === 'VOCAB 7000'){user.studyType = 'SENIOR';}
         else{  // user type something other than studyType
-            controlPanel.mode = 'studyType';
-            studyTypeEventHandler(event, client, replyToken);
+            user.mode = 'studyType';
+            studyTypeEventHandler(event, client, replyToken, user);
             return;
         }
-        suggestEventHandler(event, client, replyToken);
+        suggestEventHandler(event, client, replyToken, user);
         return;
     }
-    if(controlPanel.mode === 'anotherWord'){
-        anotherWordEventHandler(event, client, text, replyToken);
+    if(user.mode === 'anotherWord'){
+        anotherWordEventHandler(event, client, text, replyToken, user);
         return;
     }
 
 
     if(report){
-        reportEventHandler(event, client, replyToken);
+        reportEventHandler(event, client, replyToken, user);
     }
     else{
-        textEventHandler(event, client, text, replyToken);
+        textEventHandler(event, client, text, replyToken, user);
     }
 }
