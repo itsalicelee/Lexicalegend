@@ -65,7 +65,7 @@ export const Dialogue: IDialogue = {
     },
     anotherWord: {
         en: "Would you like to learn another word? 🦄",
-        zh: "想要學習更其他單字嗎？ 🦄",
+        zh: "想要學習其他單字嗎？ 🦄",
     },
     studyType: {
         en: "What kind of exam would you like to study? 🌱",

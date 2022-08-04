@@ -67,6 +67,7 @@ app.post(
     const results = await Promise.all(
       events.map(async (event: WebhookEvent) => {
         try {
+            EventHandler.getUserProfile(event, client);
             if(event.type === 'follow'){
                 await EventHandler.followEventHandler(event, client);
             }
