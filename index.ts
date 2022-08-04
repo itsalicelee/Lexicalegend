@@ -27,12 +27,16 @@ const app: Application = express();
 interface IControl{
     mode: 'dict' | 'suggest' | 'studyType' | 'anotherWord',
     studyType: 'none' | 'GRE' | 'TOEFL' | 'TOEIC' | 'IELTS' | 'JUNIOR' | 'SENIOR', 
+    lang: 'en' | 'zh',  //TODO: sett user language here, if zh set zh; else en
+    displayName: string,
 };
 
 
 export var controlPanel: IControl = {
     mode: 'dict',
-    studyType: 'none'
+    studyType: 'none',
+    lang: 'zh',
+    displayName: '',
 };
 
 // Register the LINE middleware.
@@ -57,11 +61,13 @@ app.post(
   middleware(middlewareConfig),
   async (req: Request, res: Response): Promise<Response> => {
     const events: WebhookEvent[] = req.body.events;
+     
 
     // Process all of the received events asynchronously.
     const results = await Promise.all(
       events.map(async (event: WebhookEvent) => {
         try {
+            EventHandler.getUserProfile(event, client);
             if(event.type === 'follow'){
                 await EventHandler.followEventHandler(event, client);
             }

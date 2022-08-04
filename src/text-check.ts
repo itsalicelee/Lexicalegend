@@ -1,4 +1,5 @@
 import { Dialogue } from "./dialogue";
+import { controlPanel } from "..";
 const emojiRegex = require('emoji-regex');
 
 /** 
@@ -11,7 +12,7 @@ export function emojiCheck(text:string): string{
     const regex = emojiRegex();
     for (const match of text.matchAll(regex)) {
         const emoji = match[0];
-        result =  `I love this emoji! ${ emoji } ${ emoji } ${ emoji } \n` + Dialogue.emojiCheck;
+        result =  Dialogue.emojiCheck_front[controlPanel.lang] + ` ${ emoji } ${ emoji } ${ emoji } \n` + Dialogue.emojiCheck_back[controlPanel.lang];
     }
     return result;
 }
@@ -24,6 +25,6 @@ export function emojiCheck(text:string): string{
 export function englishCheck(text: string): string{
     let pattern : RegExp = /^[A-Za-z0-9 _]*[A-Za-z0-9][A-Za-z0-9 _]*$/;
     let match : boolean = pattern.test(text);
-    let result = (match === false)? Dialogue.englishCheck: '';
+    let result = (match === false)? Dialogue.englishCheck[controlPanel.lang]: '';
     return result;  
 }

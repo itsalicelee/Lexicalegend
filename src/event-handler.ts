@@ -6,6 +6,15 @@ import { controlPanel } from '..';
 import * as utils from './utils';
 import { MyQuickReply } from './quickReply';
 
+export const getUserProfile = async (event: WebhookEvent, client: Client) => {
+    const userID: string = event.source.userId!;
+    const displayName = (await client.getProfile(userID)).displayName;
+    const lang = (await client.getProfile(userID)).language;  //TODO: get profile and save to controlPanel
+    controlPanel.displayName = displayName;
+    controlPanel.lang = (lang?.includes('zh')) ? 'zh' : 'en';
+}
+
+
 export const followEventHandler = async (event: WebhookEvent, client: Client): Promise<MessageAPIResponseBase | undefined> => {
     if (event.type !== 'follow') {
         return;
@@ -15,9 +24,8 @@ export const followEventHandler = async (event: WebhookEvent, client: Client): P
     // userID is not null
     const userID: string = event.source.userId!;
     const displayName = (await client.getProfile(userID)).displayName;
-
     
-    let reply = `Hi ${displayName}! Let's learn vocabulary! 👩‍🏫\n` + Dialogue.follow;
+    let reply = `Hi ${displayName}! ` + Dialogue.follow[controlPanel.lang];
      // Create a new message.
     const response: TextMessage = {
         type: 'text',
@@ -68,7 +76,7 @@ export const imageEventHandler = async (event: WebhookEvent, client: Client): Pr
     }
     
     const { replyToken } = event;
-    let reply = Dialogue.image;
+    let reply = Dialogue.image[controlPanel.lang];
     // Create a new message.
     const response: TextMessage = {
         type: 'text',
@@ -86,7 +94,7 @@ export const audioEventHandler = async (event: WebhookEvent, client: Client): Pr
     }
 
     const { replyToken } = event;
-    let reply = Dialogue.audio;
+    let reply = Dialogue.audio[controlPanel.lang];
      // Create a new message.
     const response: TextMessage = {
         type: 'text',
@@ -103,7 +111,7 @@ export const videoEventHandler = async (event: WebhookEvent, client: Client): Pr
     }
 
     const { replyToken } = event;
-    let reply = Dialogue.video;
+    let reply = Dialogue.video[controlPanel.lang];
      // Create a new message.
     const response: TextMessage = {
         type: 'text',
@@ -120,7 +128,7 @@ export const locationEventHandler = async (event: WebhookEvent, client: Client):
     }
 
     const { replyToken } = event;
-    let reply = Dialogue.location;
+    let reply = Dialogue.location[controlPanel.lang];
      // Create a new message.
     const response: TextMessage = {
         type: 'text',
@@ -157,7 +165,7 @@ export const fileEventHandler = async (event: WebhookEvent, client: Client): Pro
     }
 
     const { replyToken } = event;
-    let reply = Dialogue.file;
+    let reply = Dialogue.file[controlPanel.lang];
      // Create a new message.
     const response: TextMessage = {
         type: 'text',
@@ -195,7 +203,7 @@ export const suggestEventHandler = async (client: Client, replyToken: string): P
     }
     
 
-    let anotherReply = Dialogue.anotherWord;
+    let anotherReply = Dialogue.anotherWord[controlPanel.lang];
     var response2: TextMessage = {
         type: 'text',
         text: anotherReply,
@@ -216,7 +224,7 @@ export const suggestEventHandler = async (client: Client, replyToken: string): P
 export const studyTypeEventHandler = async (client: Client, replyToken: string): Promise<MessageAPIResponseBase | undefined> => {
     if(controlPanel.mode != 'studyType'){ return; }
     console.log("Study Type Event Handler!");
-    let reply = Dialogue.studyType;
+    let reply = Dialogue.studyType[controlPanel.lang];
     var response: TextMessage = {
         type: 'text',
         text: reply,
@@ -246,7 +254,7 @@ export const anotherWordEventHandler = async (client: Client, text: string, repl
     }
     else if(text.toUpperCase() === 'NO'){
         controlPanel.mode = 'dict';
-        let reply = Dialogue.dictMode;
+        let reply = Dialogue.dictMode[controlPanel.lang];
         // Create a new message.
         const response: TextMessage = {
             type: 'text',
@@ -256,7 +264,7 @@ export const anotherWordEventHandler = async (client: Client, text: string, repl
         return;
     }
     else{  // user replys neither YES nor NO
-        let anotherReply = Dialogue.anotherWord;
+        let anotherReply = Dialogue.anotherWord[controlPanel.lang];
         var response2: TextMessage = {
             type: 'text',
             text: anotherReply,
@@ -270,7 +278,7 @@ export const anotherWordEventHandler = async (client: Client, text: string, repl
 
 export const reportEventHandler = async (client: Client, replyToken: string): Promise<MessageAPIResponseBase | undefined> => {
 
-    let reply = Dialogue.report;
+    let reply = Dialogue.report[controlPanel.lang];
      // Create a new message.
     const response: TextMessage = {
         type: 'text',
