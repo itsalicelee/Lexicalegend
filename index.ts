@@ -75,8 +75,8 @@ app.post(
       events.map(async (event: WebhookEvent) => {
         try {
             const user: User = await EventHandler.getUserProfile(event, client);
-            const userIdx = users.findIndex(user => {
-                return user.id === user.id;
+            const userIdx: number = users.findIndex(ele => {
+                return ele.id === user.id;
             });
 
             console.log(user.displayName);
