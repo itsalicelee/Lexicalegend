@@ -47,7 +47,7 @@ export const textEventHandler = async (event: WebhookEvent, client: Client, text
     else{
         var def = await fetchCambridge(text);
         // if no this word, give spell check list
-        reply = (def === '') ? (Dialogue.spellCheck + await getSpellCheckLst(text)) : def;
+        reply = (def === '') ? (Dialogue.spellCheck[controlPanel.lang] + await getSpellCheckLst(text)) : def;
     }
 
     // Create a new message of word def or spell check list
