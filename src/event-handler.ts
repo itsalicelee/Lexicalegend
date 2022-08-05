@@ -1,6 +1,6 @@
 
 import { Dialogue } from './dialogue';
-import { Client, WebhookEvent, TextMessage, MessageAPIResponseBase, StickerMessage, Profile} from '@line/bot-sdk';
+import { Client, WebhookEvent, TextMessage, MessageAPIResponseBase, StickerMessage, ImageMessage, Profile} from '@line/bot-sdk';
 import { emojiCheck, englishCheck} from './text-check';
 import {fetchCambridge, getSpellCheckLst} from './cambridge';
 import { users, User, Mode, StudyType, Lang} from '..';
@@ -45,8 +45,16 @@ export const followEventHandler = async (event: WebhookEvent, client: Client, us
         type: 'text',
         text: reply,
     };
+
+    const imgResponse: ImageMessage = {
+        type: 'image',
+        originalContentUrl: 'https://raw.githubusercontent.com/itsalicelee/Lexicalegend/master/img/lexicalegend.jpg',
+        previewImageUrl: 'https://raw.githubusercontent.com/itsalicelee/Lexicalegend/master/img/preview_lexicalegend.jpg'
+    }
+
+
     // Reply to the user.
-    await client.replyMessage(replyToken, response);
+    await client.replyMessage(replyToken, [response, imgResponse]);
     return;
 }
 
