@@ -2,7 +2,7 @@
 import { Dialogue } from './dialogue';
 import { Client, WebhookEvent, TextMessage, MessageAPIResponseBase, StickerMessage, ImageMessage, Profile} from '@line/bot-sdk';
 import { emojiCheck, englishCheck} from './text-check';
-import {fetchCambridge, getSpellCheckLst} from './cambridge';
+import {getDef, getSpellCheckLst} from './get-def';
 import { users, User, Mode, StudyType, Lang} from '..';
 import { MyQuickReply } from './quickReply';
 import * as utils from './utils';
@@ -71,7 +71,7 @@ export const textEventHandler = async (event: WebhookEvent, client: Client, text
     }
     // Look up translation
     else{
-        var def = await fetchCambridge(text);
+        var def = await getDef(text);
         // if no this word, give spell check list
         reply = (def === '') ? (Dialogue.spellCheck[user.lang] + await getSpellCheckLst(text)) : def;
     }
@@ -102,7 +102,7 @@ export const suggestEventHandler = async (event: WebhookEvent, client: Client, r
     var def: string = '';
     while(def === ''){  // no this word, suggest new word again
         suggestedWord = utils.suggestWord(user);
-        def = await fetchCambridge(suggestedWord);
+        def = await getDef(suggestedWord);
     }
 
     // concat the word with its def
