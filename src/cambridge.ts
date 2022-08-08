@@ -22,6 +22,14 @@ export async function fetchCambridge(text: string): Promise<string>{
         if(def.length > 3000){
             def = def.substring(0,2000);
         }
+        // add examples from dictionary
+        let example = $(`.examp.dexamp`).first();
+        let example_eng = example.find(`span`).first().text();
+        let example_zht = example.find(`span`).last().text();
+        if(example.length !== 0){
+            def += `\n\n✍️  ${example_eng} \n${example_zht}`
+        }
+        
         console.log(def);       
         return def;
     }
