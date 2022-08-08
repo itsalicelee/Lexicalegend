@@ -24,8 +24,8 @@ interface IDialogue{
 
 export const Dialogue: IDialogue = {
     follow: {
-        en: "Let's learn vocabulary! 👩‍🏫\n\n\n✏️Type any word to search for its translation\n\n✏️Type STUDY to learn from an exam (TOEFL/GRE/TOEIC/IELTS/vocab 2000/vocab 7000).\n\n✏️Type REPORT to report bug and/or give suggestions",
-        zh: "來學單字吧！👩‍🏫\n\n\n✏️輸入任何單字來查找中文翻譯\n\n✏️輸入 STUDY 來學習考試(托福/GRE/多益/雅思/國中2000單/高中7000單)的單字\n\n✏️輸入 REPORT 以回報問題或是給予回饋",
+        en: "Let's learn vocabulary! 👩‍🏫\n\n\n✏️Type any word to search for its translation\n\n✏️Type STUDY to learn from an exam (TOEFL/GRE/TOEIC/IELTS/vocab 2000/vocab 7000).\n\n✏️Type REPORT to report bug and give suggestions\n\n✏️Feel free to pin me to the top of the chat list😉",
+        zh: "來學單字吧！👩‍🏫\n\n\n✏️輸入任何單字來查找中文翻譯\n\n✏️輸入 STUDY 來學習考試(托福/GRE/多益/雅思/國中2000單/高中7000單)的單字\n\n✏️輸入 REPORT 以回報問題或是給予回饋\n\n✏️也可以將我釘選在聊天列表的上方呦😉",
     },
     spellCheck: {
         en: "Are you looking for: \n ", // + spellCheck list ,
