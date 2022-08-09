@@ -59,9 +59,16 @@ export async function fetchDreye(text: string): Promise<string>{
         
         // get a list of definitioins
         let defLst: string[] = [];
-        let defBody = $(`.sg.block`).not(`exp`).find(`ol`).each((i: number, el: any) => {
+        let defBody = $(`.sg.block`).find(`ol`).each((i: number, el: any) => {
             defLst.push("➡️" + $(el).find(`li`).contents().get(0).nodeValue);
         });
+        if(defLst.length === 0){
+            let defBody = $('#digest').find('ul').each((i: number, el: any) => {
+                defLst.push("➡️" + $(el).find(`li`).find(`span`).not(`.label`).text());
+            });
+        }
+
+
 
         // join the definitions into a string
         let def = defLst.join("\n");

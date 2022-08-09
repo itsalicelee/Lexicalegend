@@ -25,7 +25,7 @@ export function emojiCheck(event: WebhookEvent, client: Client, text:string, use
  * @returns the default reply if contains non-english characters, or empty string if no non-english characters
  */
 export function englishCheck(event: WebhookEvent, client: Client, text: string, user: User): string{
-    let pattern : RegExp = /^[A-Za-z0-9 _]*[A-Za-z0-9][A-Za-z0-9 _]*$/;
+    let pattern : RegExp = /^[A-Za-z .]*[A-Za-z.][A-Za-z -.]*$/;
     let match : boolean = pattern.test(text);
     
     let result = (match === false)? Dialogue.englishCheck[user.lang]: '';
