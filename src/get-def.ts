@@ -1,22 +1,31 @@
 import axios from 'axios';
 import Cheerio from 'cheerio';
+import { Dialogue } from './dialogue';
+import { Lang } from '..';
 
 const AxiosInstance = axios.create();  // Create a new Axios Instance
 
-export async function getDef(text: string): Promise<string>{
-    // default fetch from cambridge
-    let def: string = await fetchCambridge(text);
-    // if can't found in cambridge fetch from dr.eye
-    if(def.length === 0){
-        def = await fetchDreye(text);
+export async function getDef(text: string, lang: Lang): Promise<string>{
+    try{
+        // default fetch from cambridge
+        let def: string = await fetchCambridge(text,lang);
+        // if can't found in cambridge fetch from dr.eye
+        if(def.length === 0){
+            def = await fetchDreye(text, lang);
+        }
+        console.log(def);
+        return def;
     }
-    console.log(def);
-    return def;
+    catch(e){
+        console.log(e);
+        return Dialogue.failedGetDef[lang];
+    }
+
 }
 
 
 // Send an async HTTP Get request to the url
-export async function fetchCambridge(text: string): Promise<string>{
+export async function fetchCambridge(text: string, lang: Lang): Promise<string>{
     const url = `https://dictionary.cambridge.org/us/dictionary/english-chinese-traditional/${text}`; 
     try{
         const response = await AxiosInstance.get(url);
@@ -40,17 +49,16 @@ export async function fetchCambridge(text: string): Promise<string>{
         if(example.length !== 0){
             def += `\n\n✍️  ${example_eng}${example_zht}`
         }
-        
-        console.log(def);       
         return def;
     }
     catch(e){
-        throw Error("Failed fetching word def QQ");
+        console.log(e);
+        return Dialogue.failedGetDef[lang];
     };
 }
 
 // Send an async HTTP Get request to the url
-export async function fetchDreye(text: string): Promise<string>{
+export async function fetchDreye(text: string, lang: Lang): Promise<string>{
     const url = `https://yun.dreye.com/dict_new/dict.php?w=${text}`; 
     try{
         const response = await AxiosInstance.get(url);
@@ -68,8 +76,6 @@ export async function fetchDreye(text: string): Promise<string>{
             });
         }
 
-
-
         // join the definitions into a string
         let def = defLst.join("\n");
         if(def.length > 3000){
@@ -84,12 +90,13 @@ export async function fetchDreye(text: string): Promise<string>{
         return def;
     }
     catch(e){
-        throw Error("Failed fetching word def QQ");
+        console.log(e);
+        return Dialogue.failedGetDef[lang];
     };
 }
 
 
-export async function getSpellCheckLst(text:string): Promise<string>{
+export async function getSpellCheckLst(text:string, lang: Lang): Promise<string>{
     try{
         const url_spellcheck = `https://dictionary.cambridge.org/us/spellcheck/english-chinese-traditional/?q=${text}`;
         const response = await AxiosInstance.get(url_spellcheck);
@@ -104,6 +111,7 @@ export async function getSpellCheckLst(text:string): Promise<string>{
         return spellCheckLst;
     }
     catch(e){
-        throw Error("Failed fetching word suggesting QQ");
+        console.log(e);
+        return Dialogue.failedGetDef[lang];
     }
 }
