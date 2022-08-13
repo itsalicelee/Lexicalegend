@@ -71,9 +71,9 @@ export const textEventHandler = async (event: WebhookEvent, client: Client, text
     }
     // Look up translation
     else{
-        var def = await getDef(text);
+        var def = await getDef(text, user.lang);
         // if no this word, give spell check list
-        reply = (def === '') ? (Dialogue.spellCheck[user.lang] + await getSpellCheckLst(text)) : def;
+        reply = (def === '') ? (Dialogue.spellCheck[user.lang] + await getSpellCheckLst(text, user.lang)) : def;
     }
 
     // Create a new message of word def or spell check list
@@ -102,7 +102,7 @@ export const suggestEventHandler = async (event: WebhookEvent, client: Client, r
     var def: string = '';
     while(def === ''){  // no this word, suggest new word again
         suggestedWord = utils.suggestWord(user);
-        def = await getDef(suggestedWord);
+        def = await getDef(suggestedWord, user.lang);
     }
 
     // concat the word with its def

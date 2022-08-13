@@ -31,7 +31,9 @@ Learn vocabulary with your Line chatbot everyday!
 - [X] Add examples using the vocabulary
 - [ ] Demo Video
 - [ ] Add image for vocabulary
-- [ ] LINE profile image and background
+- [X] LINE profile image and background
+- [ ] Add synonym and antonym
+- [ ] Favorite word of user
 
 ## Contributor 💛
 

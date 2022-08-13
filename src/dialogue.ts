@@ -19,6 +19,8 @@ interface IDialogue{
     studyType: DialogueLang,
     report: DialogueLang,
     dictMode: DialogueLang,
+    failedGetDef: DialogueLang,
+    failedGetSpellCheck: DialogueLang,
 };
 
 
@@ -79,4 +81,12 @@ export const Dialogue: IDialogue = {
         en: "Back to dictionary mode 📖",
         zh: "回到字典模式 📖",
     },
+    failedGetDef: {
+        en: "Ooops... Something went wrong 😿",
+        zh: "糟糕...有東西出錯了 😿",
+    },
+    failedGetSpellCheck: {
+        en: "Ooops... I can't find this word 🥺",
+        zh: "糟糕...找不到這個字 🥺",
+    }
 };
