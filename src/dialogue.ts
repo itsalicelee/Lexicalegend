@@ -50,7 +50,7 @@ export const Dialogue: IDialogue = {
         zh: "我喜歡這張照片！❤️",
     },
     audio: {
-        en: "Ooops...I'm better at recognizing words... 👀",
+        en: "Oops...I'm better at recognizing words... 👀",
         zh: "我比較會認字...... 👀",
     },
     video: {
@@ -82,11 +82,11 @@ export const Dialogue: IDialogue = {
         zh: "回到字典模式 📖",
     },
     failedGetDef: {
-        en: "Ooops... Something went wrong 😿",
-        zh: "糟糕...有東西出錯了 😿",
+        en: "Oops... Something went wrong. Please try it again 😿",
+        zh: "糟糕...有東西出錯了... 請稍候再嘗試一次 😿",
     },
     failedGetSpellCheck: {
-        en: "Ooops... I can't find this word 🥺",
+        en: "Oops... I can't find this word 🥺",
         zh: "糟糕...找不到這個字 🥺",
     }
 };
