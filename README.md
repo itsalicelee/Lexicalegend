@@ -38,3 +38,4 @@ Learn vocabulary with your Line chatbot everyday!
 ## Contributor 💛
 
 - Thanks to [@h93h3.3](https://www.instagram.com/h93h3.3/) for the character design!
+<img src="./img/lexicalegend.jpg" width="250"/>
