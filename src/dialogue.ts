@@ -70,7 +70,7 @@ export const Dialogue: IDialogue = {
         zh: "想要學習其他單字嗎？ 🦄",
     },
     studyType: {
-        en: "What kind of exam would you like to study? 🌱",
+        en: "What kind of exam would you like to study for? 🌱",
         zh: "你想要學習的考試是什麼呢？🌱",
     },
     report: {
