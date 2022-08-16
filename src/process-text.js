@@ -15,23 +15,52 @@ var ieltsArr = fs.readFileSync('./lib/ielts.txt').toString().split('\n');
 var juniorArr = fs.readFileSync('./lib/junior.txt').toString().split('\n');
 var seniorArr = fs.readFileSync('./lib/senior.txt').toString().split('\n');
 
+
+// check if text is valid
+function checkEnglish(text){
+    let pattern = /^[A-Za-z .]*[A-Za-z.][A-Za-z -.]*$/;
+    let match = pattern.test(text);
+    // if(match === false){
+    //     console.log(text);
+    // }
+    return match
+}
+
 for(let i = 0; i < toeflArr.length; i++){
-    toefl.push(toeflArr[i].split('#')[0]);
+    text = toeflArr[i].split('#')[0];
+    if(checkEnglish(text) === true){
+        toefl.push(text);
+    }
 }
 for(let i = 0; i < greArr.length; i++){
-    gre.push(greArr[i]);
+    text = greArr[i];
+    if(checkEnglish(text) === true){
+        gre.push(text);
+    }
 }
 for(let i = 0; i < toeicArr.length; i++){
-    toeic.push(toeicArr[i].split('=')[0]);
+    text = toeicArr[i].split('=')[0];
+    if(checkEnglish(text) === true){
+        toeic.push(text);
+    }
 }
 for(let i = 0; i < ieltsArr.length; i+=2){
-    ielts.push(ieltsArr[i]);
+    text = ieltsArr[i];
+    if(checkEnglish(text) === true){
+        ielts.push(text);
+    }
 }
 for(let i = 0; i < juniorArr.length; i++){
-    junior.push(juniorArr[i].split('@')[0]);
+    text = juniorArr[i].split('@')[0];
+    if(checkEnglish(text) === true){
+        junior.push(text);
+    }
 }
 for(let i = 0; i < seniorArr.length; i++){
-    senior.push(seniorArr[i].split('@')[0]);
+    text = seniorArr[i].split('@')[0]
+    if(checkEnglish(text) === true){
+        senior.push(text);
+    }
 }
 
 const vocab = {TOEFL:toefl, GRE:gre, TOEIC:toeic, IELTS:ielts, JUNIOR: junior, SENIOR: senior};
@@ -41,4 +70,9 @@ fs.writeFile("./lib/vocab.json", JSON.stringify(vocab), 'utf8', function (err) {
         return console.log(err);
     }
     console.log("The file is saved!");
+    console.log("TOEFL:", toefl.length);
+    console.log("GRE:", gre.length);
+    console.log("IELTS:", ielts.length);
+    console.log("JUNIOR:", junior.length);
+    console.log("SENIOR:", senior.length);
 });
