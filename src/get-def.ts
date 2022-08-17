@@ -31,16 +31,32 @@ export async function fetchCambridge(text: string, lang: Lang): Promise<string>{
         const response = await AxiosInstance.get(url);
         const html = response.data;
         const $ = Cheerio.load(html); // Load the HTML string into cheerio
+
+        const keyword = $(`.headword`).first().text();
         
-        // get a list of definitioins
         let defLst: string[] = [];
-        let defBody = $(`.def-body`).each((i: number, el: any) => {
-            defLst.push("➡️" + $(el).find(`span`).first().text());
-        });
+        
+        let entry = $(`.pr.entry-body__el`).each((i: number, el: any) => {
+            // pos of each word (e.g. verb, adverb)
+            let pos = "\n🎯";
+            let posItem = $(`.pos.dpos`, el).each((k: number, pos_: any) => {
+                let phon = $(`.us.dpron-i > .pron.dpron`, el).text();
+                pos += ($(pos_).text() + " " + phon + "\t");
+            });
+            defLst.push(pos);
+            // get a list of definitioins
+            let defBody = $(`.def-body`, el).each((j: number, el2: any) => {
+                    defLst.push("➡️" + $(el2).find(`span`).first().text());
+                });
+        }) 
         // join the definitions into a string
         let def = defLst.join("\n");
         if(def.length > 3000){
             def = def.substring(0,2000);
+        }
+        // add the word that user searches
+        if(def.length !== 0){
+            def = `✅ ${keyword} \n\n` + def;
         }
         // add examples from dictionary
         let example = $(`.examp.dexamp`).first();
@@ -64,12 +80,50 @@ export async function fetchDreye(text: string, lang: Lang): Promise<string>{
         const response = await AxiosInstance.get(url);
         const html = response.data;
         const $ = Cheerio.load(html); // Load the HTML string into cheerio
-        
+        const keyword = $(`#display_word`).first().text().trim();
         // get a list of definitioins
         let defLst: string[] = [];
-        let defBody = $(`.sg.block`).first().find(`ol > li`).each((i: number, word:any) =>{
-            defLst.push("➡️" + $(word).contents().get(0).nodeValue);
+
+        const orig_pos = $(`.attr`).text().replace('[Z]', '').replace('[C]', '').replace('[名]', '').split('.');
+        let posLst: string[] = [];
+        // pos abbreviation to original
+        for (let s of orig_pos) {
+            if(s === 'vt' || s === 'vi' || s === 'v'){
+                posLst.push('verb');
+            }
+            else if (s === 'a'){
+                posLst.push('adjective');
+            }
+            else if (s === 'ad'){
+                posLst.push('adverb');
+            }
+            else if (s === 'n'){
+                posLst.push('noun');
+            }
+            else if (s === 'prep'){
+                posLst.push('preposition');
+            }
+            else if (s === 'pron'){
+                posLst.push('pronoun');
+            }
+            else{
+                posLst.push(s);
+            }
+        }
+        // phonics
+        let phon = $(`.phonetic`).text().split(' ')[0]; // get KK
+        phon = phon.substring(4, phon.length-1) // get characters only
+        phon = ('/' + phon + '/');
+
+        let defBody = $(`.sg.block`).first().find(`ol`).each((i: number, ol:any) =>{
+            let pos = "\n🎯";
+            pos += (posLst[i] + " " + phon);
+            defLst.push(pos);
+            let posItem = $(`li`, ol).each((k: number, word: any) => {
+                defLst.push("➡️" + $(word).contents().get(0).nodeValue);
+            });
         });
+        
         if(defLst.length === 0){
             let defBody = $('#digest').find('ul').each((i: number, el: any) => {
                 defLst.push("➡️" + $(el).find(`li`).find(`span`).not(`.label`).text());
@@ -80,6 +134,9 @@ export async function fetchDreye(text: string, lang: Lang): Promise<string>{
         let def = defLst.join("\n");
         if(def.length > 3000){
             def = def.substring(0,2000);
+        }
+        if(def.length !== 0){
+            def = `✅ ${keyword} \n\n` + def;
         }
         // add examples from dictionary
         let example = $(`.sg.block`).find(`ol > li > div`).first().text();
