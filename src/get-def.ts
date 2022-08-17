@@ -36,11 +36,11 @@ export async function fetchCambridge(text: string, lang: Lang): Promise<string>{
         
         let defLst: string[] = [];
         
-        let entry = $(`.pr.entry-body__el`).each((i: number, el: any) => {
+        let entry = $(`.entry-body__el`).each((i: number, el: any) => {
             // pos of each word (e.g. verb, adverb)
             let pos = "\n🎯";
             let posItem = $(`.pos.dpos`, el).each((k: number, pos_: any) => {
-                let phon = $(`.us.dpron-i > .pron.dpron`, el).text();
+                let phon = $(`.pron.dpron`, el).last().text();
                 pos += ($(pos_).text() + " " + phon + "\t");
             });
             defLst.push(pos);
