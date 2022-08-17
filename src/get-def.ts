@@ -40,8 +40,10 @@ export async function fetchCambridge(text: string, lang: Lang): Promise<string>{
             // pos of each word (e.g. verb, adverb)
             let pos = "\n🎯";
             let posItem = $(`.pos.dpos`, el).each((k: number, pos_: any) => {
-                let phon = $(`.pron.dpron`, el).last().text();
-                pos += ($(pos_).text() + " " + phon + "\t");
+                let phon = $(`.pron.dpron`, el).last().text().replace("weak", "").replace("strong", "");
+                if($(pos_).text()){
+                    pos += ($(pos_).text() + " " + phon + "\t");
+                }
             });
             defLst.push(pos);
             // get a list of definitioins
