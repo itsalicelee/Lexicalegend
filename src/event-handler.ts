@@ -107,7 +107,7 @@ export const suggestEventHandler = async (event: WebhookEvent, client: Client, r
 
     // concat the word with its def
     var reply: string = '';
-    reply = `✅ ${suggestedWord} \n\n` + def;
+    reply = def;
     var response1: TextMessage = {
         type: 'text',
         text: reply,
