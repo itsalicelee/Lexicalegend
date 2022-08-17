@@ -38,14 +38,17 @@ export async function fetchCambridge(text: string, lang: Lang): Promise<string>{
         
         let entry = $(`.entry-body__el`).each((i: number, el: any) => {
             // pos of each word (e.g. verb, adverb)
-            let pos = "\n🎯";
+            let pos: string = "";
             let posItem = $(`.pos.dpos`, el).each((k: number, pos_: any) => {
                 let phon = $(`.pron.dpron`, el).last().text().replace("weak", "").replace("strong", "");
-                if($(pos_).text()){
+                if($(pos_).text() || phon){
                     pos += ($(pos_).text() + " " + phon + "\t");
                 }
             });
-            defLst.push(pos);
+            if (pos){
+                pos = "\n🎯" + pos
+                defLst.push(pos);
+            }
             // get a list of definitioins
             let defBody = $(`.def-body`, el).each((j: number, el2: any) => {
                     defLst.push("➡️" + $(el2).find(`span`).first().text());
@@ -118,9 +121,12 @@ export async function fetchDreye(text: string, lang: Lang): Promise<string>{
         phon = ('/' + phon + '/');
 
         let defBody = $(`.sg.block`).first().find(`ol`).each((i: number, ol:any) =>{
-            let pos = "\n🎯";
+            let pos: string = "";
             pos += (posLst[i] + " " + phon);
-            defLst.push(pos);
+            if (pos){
+                pos = "\n🎯" + pos;
+                defLst.push(pos);
+            }
             let posItem = $(`li`, ol).each((k: number, word: any) => {
                 defLst.push("➡️" + $(word).contents().get(0).nodeValue);
             });
