@@ -15,8 +15,9 @@ Learn vocabulary with your Line chatbot everyday!
 ## Features ✨
 
 - Type a word to search for its Chinese translation
+- Support part of speech(POS) and Kenyon & Knott (KK) phonetic symbols
 - Type **`STUDY`** to choose learn vocabulary from different exams
-- Currently support:  
+- Lexical resources:  
   - TOEFL: 王玉梅托福詞彙
   - GRE: Mason 2000
   - TOEIC
@@ -34,6 +35,8 @@ Learn vocabulary with your Line chatbot everyday!
 - [X] LINE profile image and background
 - [ ] Add synonym and antonym
 - [ ] Favorite word of user
+- [X] Part of speech (POS)
+- [X] KK phonetic symbols
 
 ## Contributor 💛
 
