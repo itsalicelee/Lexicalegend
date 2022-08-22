@@ -7,6 +7,7 @@ const AxiosInstance = axios.create();  // Create a new Axios Instance
 
 export async function getDef(text: string, lang: Lang): Promise<string>{
     try{
+        text = text.toLowerCase();
         // default fetch from cambridge
         let def: string = await fetchCambridge(text,lang);
         // if can't found in cambridge fetch from dr.eye
