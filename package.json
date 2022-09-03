@@ -1,45 +1,46 @@
 {
-  "name": "lexicalegend",
-  "version": "1.0.0",
-  "description": "A Line chatbot for searching and recommending vocabularies.",
-  "main": "./dist/index.js",
-  "scripts": {
-    "clean": "rimraf ./dist",
-    "build": "npm run clean && tsc",
-    "start": "node dist/index.js",
-    "dev": "nodemon --watch 'src/**/*.ts' --exec 'ts-node' index.ts",
-    "scrap": "nodemon --watch 'src/**/*.ts' --exec 'ts-node' src/get-def.ts",
-    "build-lib": "node src/process-text.js"
-  },
-  "author": "Alice Lee <alice668149@gmail.com> (https://itsalicelee.github.io)",
-  "dependencies": {
-    "@line/bot-sdk": "^7.3.0",
-    "axios": "^0.27.2",
-    "cheerio": "^1.0.0-rc.12",
-    "emoji-regex": "^10.1.0",
-    "express": "^4.17.1",
-    "htmlparser2": "^8.0.1"
-  },
-  "devDependencies": {
-    "@types/axios": "^0.14.0",
-    "@types/cheerio": "^0.22.31",
-    "@types/express": "^4.17.9",
-    "@types/node": "^14.14.14",
-    "nodemon": "^2.0.19",
-    "rimraf": "^3.0.2",
-    "ts-node": "^10.9.1",
-    "typescript": "^4.7.4"
-  },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/itsalicelee/Lexicalegend.git"
-  },
-  "keywords": [
-    "linebot"
-  ],
-  "license": "MIT",
-  "bugs": {
-    "url": "https://github.com/itsalicelee/Lexicalegend/issues"
-  },
-  "homepage": "https://github.com/itsalicelee/Lexicalegend#readme"
+    "name": "lexicalegend",
+    "version": "1.0.0",
+    "description": "A Line chatbot for searching and recommending vocabularies.",
+    "main": "./dist/index.js",
+    "scripts": {
+        "clean": "rimraf ./dist",
+        "rimraf": "./node_modules/rimraf/bin.js",
+        "build": "npm run clean && tsc",
+        "start": "node dist/index.js",
+        "dev": "nodemon --watch 'src/**/*.ts' --exec 'ts-node' index.ts",
+        "scrap": "nodemon --watch 'src/**/*.ts' --exec 'ts-node' src/get-def.ts",
+        "build-lib": "node src/process-text.js"
+    },
+    "author": "Alice Lee <alice668149@gmail.com> (https://itsalicelee.github.io)",
+    "dependencies": {
+        "@line/bot-sdk": "^7.3.0",
+        "axios": "^0.27.2",
+        "cheerio": "^1.0.0-rc.12",
+        "emoji-regex": "^10.1.0",
+        "express": "^4.17.1",
+        "htmlparser2": "^8.0.1"
+    },
+    "devDependencies": {
+        "@types/axios": "^0.14.0",
+        "@types/cheerio": "^0.22.31",
+        "@types/express": "^4.17.9",
+        "@types/node": "^14.14.14",
+        "nodemon": "^2.0.19",
+        "rimraf": "^3.0.2",
+        "ts-node": "^10.9.1",
+        "typescript": "^4.7.4"
+    },
+    "repository": {
+        "type": "git",
+        "url": "git+https://github.com/itsalicelee/Lexicalegend.git"
+    },
+    "keywords": [
+        "linebot"
+    ],
+    "license": "MIT",
+    "bugs": {
+        "url": "https://github.com/itsalicelee/Lexicalegend/issues"
+    },
+    "homepage": "https://github.com/itsalicelee/Lexicalegend#readme"
 }
