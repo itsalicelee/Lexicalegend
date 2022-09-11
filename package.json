@@ -5,7 +5,6 @@
     "main": "./dist/index.js",
     "scripts": {
         "clean": "rimraf ./dist",
-        "rimraf": "./node_modules/rimraf/bin.js",
         "build": "npm run clean && tsc",
         "start": "node dist/index.js",
         "dev": "nodemon --watch 'src/**/*.ts' --exec 'ts-node' index.ts",

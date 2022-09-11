@@ -119,7 +119,10 @@ export async function fetchDreye(text: string, lang: Lang): Promise<string>{
         // phonics
         let phon = $(`.phonetic`).text().split(' ')[0]; // get KK
         phon = phon.substring(4, phon.length-1) // get characters only
-        phon = ('/' + phon + '/');
+        if (phon !== ''){
+            phon = ("/" + phon + "/");
+        }
+        
 
         let defBody = $(`.sg.block`).first().find(`ol`).each((i: number, ol:any) =>{
             let pos: string = "";
